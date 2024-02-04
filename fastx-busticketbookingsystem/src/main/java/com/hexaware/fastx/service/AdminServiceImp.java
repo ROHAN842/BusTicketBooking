@@ -1,85 +1,119 @@
 package com.hexaware.fastx.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.hexaware.fastx.dto.BusRouteDTO;
 import com.hexaware.fastx.entities.Booking;
 import com.hexaware.fastx.entities.BusOperator;
 import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.User;
+import com.hexaware.fastx.repository.BookingRepository;
+import com.hexaware.fastx.repository.BusOperatorRepository;
+import com.hexaware.fastx.repository.BusRouteRepository;
+import com.hexaware.fastx.repository.UserRepository;
 
 public class AdminServiceImp implements IAdminService {
 
+	@Autowired
+	UserRepository userRepo;
+	
+	@Autowired
+	BusOperatorRepository busOperatorRepo;
+	
+	@Autowired
+	BookingRepository bookingRepo;
+	
+	@Autowired
+	BusRouteRepository busRouteRepo;
+	
 	@Override
 	public String deleteUserAccount(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		userRepo.deleteById(userId);
+		
+		return "User deleted";
 	}
 
 	@Override
 	public String deleteBusOperatorAccount(int operatorId) {
-		// TODO Auto-generated method stub
-		return null;
+		busOperatorRepo.deleteById(operatorId);
+		
+		return "Bus Operator deleted";
 	}
 
 	@Override
 	public List<Booking> manageBookedTickets(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return bookingRepo.findByUserId(userId);
 	}
 
 	@Override
 	public List<BusRoute> viewAllBusRoutes() {
-		// TODO Auto-generated method stub
-		return null;
+		return busRouteRepo.findAll();
 	}
 
 	@Override
-	public BusRoute addBusRoute(BusRoute busRoute) {
-		// TODO Auto-generated method stub
-		return null;
+	public BusRoute addBusRoute(BusRouteDTO busRouteDto) {
+		BusRoute busRoute = new BusRoute();
+		
+		busRoute.setRouteID(busRouteDto.getRouteID());
+		busRoute.setBusNumber(busRouteDto.getBusNumber());
+		busRoute.setBusType(busRouteDto.getBusType());
+		busRoute.setOrigin(busRouteDto.getOrigin());
+		busRoute.setDestination(busRouteDto.getDestination());
+		busRoute.setTimings(busRouteDto.getTimings());
+		busRoute.setFare(busRouteDto.getFare());
+		busRoute.setAmenities(busRouteDto.getAmenities());
+		
+		return busRouteRepo.save(busRoute);
 	}
 
 	@Override
-	public BusRoute editBusRoute(BusRoute busRoute) {
-		// TODO Auto-generated method stub
-		return null;
+	public BusRoute editBusRoute(BusRouteDTO busRouteDto) {
+		BusRoute busRoute = new BusRoute();
+		
+		busRoute.setRouteID(busRouteDto.getRouteID());
+		busRoute.setBusNumber(busRouteDto.getBusNumber());
+		busRoute.setBusType(busRouteDto.getBusType());
+		busRoute.setOrigin(busRouteDto.getOrigin());
+		busRoute.setDestination(busRouteDto.getDestination());
+		busRoute.setTimings(busRouteDto.getTimings());
+		busRoute.setFare(busRouteDto.getFare());
+		busRoute.setAmenities(busRouteDto.getAmenities());
+		
+		return busRouteRepo.save(busRoute);
 	}
 
 	@Override
-	public BusRoute removeBusRoute(int routeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String removeBusRoute(int routeId) {
+		busRouteRepo.deleteById(routeId);
+		
+		return "Bus Route deleted";
 	}
 
 	@Override
-	public List<BusRoute> searchBusRoutes(String origin, String destination, LocalDate date) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BusRoute> searchBusRoutes(String origin, String destination) {
+		return busRouteRepo.getBusRoutesByOriginAndDestination(origin, destination);
 	}
 
 	@Override
 	public User getUserById(int userID) {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepo.findById(userID).orElse(null);
 	}
 
 	@Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepo.findAll();
 	}
 
 	@Override
 	public BusOperator getBusOperatorById(int operatorId) {
-		// TODO Auto-generated method stub
-		return null;
+		return busOperatorRepo.findById(operatorId).orElse(null);
 	}
 
 	@Override
 	public List<BusOperator> getAllBusOperators() {
-		// TODO Auto-generated method stub
-		return null;
+		return busOperatorRepo.findAll();
 	}
 
 }

@@ -1,0 +1,46 @@
+Things yet to implement in Case Study backend:
+
+In Bus Operator service imp:
+1. @Override
+	public boolean refundCancelledTickets(int scheduleId) {
+		return false;
+	}
+
+2. @Override
+	public boolean setFares(int routeId, BigDecimal fare) {
+		return false;
+	}
+
+	@Override
+	public boolean manageSeatAvailability(int scheduleId, int availableSeats) {
+		return false;
+	}
+3. Bus Operator login signup, authentication and authorization.
+
+Admin Service imp:
+1. Admin login authentication and authorization.
+
+User service imp:
+
+1. User login, signup, authentication and authorization.
+2. @Override
+	public List<String> getAutoSuggestions(String input) {
+		return null;
+	}
+3. @Override
+	public Map<String, Object> getFaresAndAmenities(int routeId, int numberOfSeats) {
+		return null;
+	}
+4. @Override
+	public boolean selectSeats(List<String> selectedSeats) {
+		return false;
+	}
+5. @Override
+	public BigDecimal calculateTotalPrice(int routeId, List<String> selectedSeats) {
+		return null;
+	}
+
+6. @Override
+	public Booking bookTickets(int userId, int routeId, List<String> selectedSeats) {
+		return null;
+	}

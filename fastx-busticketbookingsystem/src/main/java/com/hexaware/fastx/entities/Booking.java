@@ -60,7 +60,6 @@ public class Booking {
     //Default Constructor
 	public Booking() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	//Parameterized Constructor

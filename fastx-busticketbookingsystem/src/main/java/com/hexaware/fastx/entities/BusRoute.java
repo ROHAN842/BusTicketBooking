@@ -46,7 +46,6 @@ public class BusRoute {
     //Default Constructor
 	public BusRoute() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	//Parameterized Constructor

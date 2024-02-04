@@ -48,7 +48,6 @@ public class BusSchedule {
     //Default Constructor
 	public BusSchedule() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	//Parameterized Constructor
