@@ -6,18 +6,31 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="Admin")
 
 public class Admin {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Min(value = 100, message = "AdminId must be greater than or equal to 100")
+    @Max(value = 900, message = "AdminId must be less than or equal to 900")
 	private int adminId;
+    @NotBlank(message = "AdminUsername is required")
 	private String adminUsername;
+    @NotBlank(message = "AdminPassword is required")
 	private String adminPassword;
+    @NotBlank(message = "EmailId is required")
+    @Email(message = "Email should be valid")
 	private String emailId;
 	private String phoneNo;
 	private Date registrationDate;

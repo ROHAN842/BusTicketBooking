@@ -30,7 +30,7 @@ public class Booking {
      
     //for many to one relationship between booking to user 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userID")
+    @JoinColumn(name = "userId")
     private User user;
     
     //for many to one relationship between booking to busSchedule 
@@ -84,14 +84,14 @@ public class Booking {
         this.user = user;
     }
 	
-	//Get User method created while mapping many to one relationship between booking to BusSchedule
-    public User getBusSchedule() {
-        return user;
+    public BusSchedule getBusSchedule() {
+        return busSchedule;
     }
-    //Set User method created while mapping many to one relationship between booking to BusSchedule
+
     public void setBusSchedule(BusSchedule busSchedule) {
         this.busSchedule = busSchedule;
     }
+
     
     
     
@@ -145,6 +145,9 @@ public class Booking {
 	public void setRefundStatus(RefundStatus refundStatus) {
 		this.refundStatus = refundStatus;
 	}
+	
+
+
 	//Getters and Setters End
 
 	//ToString Method

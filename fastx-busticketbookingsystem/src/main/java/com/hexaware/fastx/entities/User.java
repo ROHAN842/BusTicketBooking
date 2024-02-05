@@ -6,19 +6,34 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="User")
 public class User {
 	@Id
-    private int userID;
+	@Min(value=100, message="Id should be greater then 100")
+	@Max(value=900, message="Id should be less then 900")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private int userId;
+    @NotBlank(message = "Username is required")
+    @Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
     private String username;
+    @NotBlank(message = "Password is required")
     private String password;
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     private String email;
     private String firstName;
     private String lastName;
@@ -66,11 +81,11 @@ public class User {
 	}
 
 	//Parameterized Constructor
-	public User(int userID, String username, String password, String email, String firstName, String lastName,
+	public User(int userId, String username, String password, String email, String firstName, String lastName,
 			String phoneNumber, String address, LocalDateTime registrationDate, Set<Booking> bookings, Set<JWTToken> jwtTokens,
 			Set<Session> sessions, Set<AuditLog> auditLogs) {
 		super();
-		this.userID = userID;
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -171,12 +186,12 @@ public class User {
     //FOr one to many relationship between user to AuditLog
 
 	//Getters and Setters Start
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -249,7 +264,7 @@ public class User {
 	// ToString Method
 	@Override
 	public String toString() {
-		return "User [userID=" + userID + ", username=" + username + ", password=" + password + ", email=" + email
+		return "User [userID=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", address="
 				+ address + ", registrationDate=" + registrationDate + "]";
 	}

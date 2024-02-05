@@ -1,10 +1,10 @@
 package com.hexaware.fastx.service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import com.hexaware.fastx.dto.UserDTO;
 import com.hexaware.fastx.entities.Booking;
 import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.BusSchedule;
@@ -12,11 +12,11 @@ import com.hexaware.fastx.entities.User;
 
 public interface IUserService {
 
-    User registerUser(User user);
+    User registerUser(UserDTO userDto);
 
     User loginUser(String usernameOrEmail, String password);
 
-    List<BusRoute> searchBusRoutes(String origin, String destination, LocalDate date);
+    List<BusRoute> searchBusRoutes(String origin, String destination);
 
     List<String> getAutoSuggestions(String input);
 
@@ -32,9 +32,9 @@ public interface IUserService {
 
     List<Booking> getBookingHistory(int userId);
 
-    boolean cancelBooking(int bookingId);
+    String cancelBooking(int bookingId);
 
-    boolean updateUserProfile(User user);
+    User updateUserProfile(UserDTO userDto);
 
     boolean changePassword(int userId, String newPassword);
 

@@ -1,8 +1,8 @@
 package com.hexaware.fastx.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
+import com.hexaware.fastx.dto.BusRouteDTO;
 import com.hexaware.fastx.entities.Booking;
 import com.hexaware.fastx.entities.BusOperator;
 import com.hexaware.fastx.entities.BusRoute;
@@ -22,15 +22,15 @@ public interface IAdminService {
     List<BusRoute> viewAllBusRoutes();
     
  // Adds a new bus route
-    BusRoute addBusRoute(BusRoute busRoute);
+    BusRoute addBusRoute(BusRouteDTO busRouteDto);
 
     // Edits an existing bus route
-    BusRoute editBusRoute(BusRoute busRoute);
+    BusRoute editBusRoute(BusRouteDTO busRouteDto);
 
     // Removes a bus route
-    BusRoute removeBusRoute(int routeId);
+    String removeBusRoute(int routeId);
     
-    List<BusRoute> searchBusRoutes(String origin, String destination, LocalDate date);
+    List<BusRoute> searchBusRoutes(String origin, String destination);
     
     User getUserById(int userID);
     
@@ -40,4 +40,3 @@ public interface IAdminService {
     
     List<BusOperator> getAllBusOperators();
 }
-

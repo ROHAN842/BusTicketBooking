@@ -6,20 +6,35 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="Bus_Operator")
 public class BusOperator {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Min(value = 150, message = "OperatorId must be greater than or equal to 150")
+    @Max(value = 1050, message = "OperatorId must be less than or equal to 1050")
 	private int operatorId;
+	@NotBlank(message = "OperatorUsername is required")
+    @Pattern(regexp = "^[a-z]+$", message = "OperatorUsername must contain only lowercase letters")
 	private String operatorUsername;
+    @NotBlank(message = "OperatorPassword is required")
 	private String operatorPassword;
 	private String operatorname;
+	@NotBlank(message = "EmailId is required")
+	@Email(message = "Email should be valid")
 	private String emailId;
 	private String phoneNumber;
 	private Date registrationDate;
