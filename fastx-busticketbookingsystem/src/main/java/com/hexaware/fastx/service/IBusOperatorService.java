@@ -49,4 +49,3 @@ public interface IBusOperatorService {
     List<Booking> getBookingHistory(int userId);
 
 }
-

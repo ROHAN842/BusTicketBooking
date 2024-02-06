@@ -26,6 +26,7 @@ public class User {
 	@Min(value=100, message="Id should be greater then 100")
 	@Max(value=900, message="Id should be less then 900")
 	@GeneratedValue(strategy = GenerationType.AUTO)
+<<<<<<< HEAD
     private int userID;
 	@NotBlank(message = "Username is required")
 	@Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
@@ -33,6 +34,15 @@ public class User {
 	@NotBlank(message = "Password is required")
     private String password;
 	@NotBlank(message = "Email is required")
+=======
+    private int userId;
+    @NotBlank(message = "Username is required")
+    @Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
+    private String username;
+    @NotBlank(message = "Password is required")
+    private String password;
+    @NotBlank(message = "Email is required")
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
     @Email(message = "Email should be valid")
     private String email;
     private String firstName;
@@ -81,11 +91,11 @@ public class User {
 	}
 
 	//Parameterized Constructor
-	public User(int userID, String username, String password, String email, String firstName, String lastName,
+	public User(int userId, String username, String password, String email, String firstName, String lastName,
 			String phoneNumber, String address, LocalDateTime registrationDate, Set<Booking> bookings, Set<JWTToken> jwtTokens,
 			Set<Session> sessions, Set<AuditLog> auditLogs) {
 		super();
-		this.userID = userID;
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -186,12 +196,12 @@ public class User {
     //FOr one to many relationship between user to AuditLog
 
 	//Getters and Setters Start
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -264,7 +274,7 @@ public class User {
 	// ToString Method
 	@Override
 	public String toString() {
-		return "User [userID=" + userID + ", username=" + username + ", password=" + password + ", email=" + email
+		return "User [userID=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", address="
 				+ address + ", registrationDate=" + registrationDate + "]";
 	}

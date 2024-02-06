@@ -40,4 +40,3 @@ public interface IAdminService {
     
     List<BusOperator> getAllBusOperators();
 }
-

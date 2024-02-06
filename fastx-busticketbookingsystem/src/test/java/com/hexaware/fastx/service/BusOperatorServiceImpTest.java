@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
+<<<<<<< HEAD
+=======
+import java.sql.Date;
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +23,14 @@ import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.BusSchedule;
 
 @SpringBootTest
+<<<<<<< HEAD
 public class BusOperatorServiceImpTest {
 	@Autowired
+=======
+class BusOperatorServiceImpTest {
+
+    @Autowired
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
     IBusOperatorService busOperatorService;
 
     @BeforeEach

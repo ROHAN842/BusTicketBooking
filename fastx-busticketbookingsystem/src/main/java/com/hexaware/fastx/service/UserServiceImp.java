@@ -21,7 +21,11 @@ import com.hexaware.fastx.repository.UserRepository;
 @Service
 public class UserServiceImp implements IUserService {
 
+<<<<<<< HEAD
 	@Autowired
+=======
+	@Autowired 
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 	UserRepository userRepo;
 	
 	@Autowired
@@ -39,7 +43,11 @@ public class UserServiceImp implements IUserService {
 		Admin admin = new Admin();
 		admin.setAdminId(userDto.getAdminId());
 		
+<<<<<<< HEAD
 		user.setUserID(userDto.getUserID());
+=======
+		user.setUserId(userDto.getUserID());
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		user.setUsername(userDto.getUsername());
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
@@ -93,7 +101,7 @@ public class UserServiceImp implements IUserService {
 		return null;
 	}
 
-	@Override
+	@Override 
 	public List<Booking> getBookingHistory(int userId) {
 		return bookingRepo.findByUserId(userId);
 	}
@@ -110,8 +118,13 @@ public class UserServiceImp implements IUserService {
 		User user = new User();
 		Admin admin = new Admin();
 		admin.setAdminId(userDto.getAdminId());
+<<<<<<< HEAD
 		
 		user.setUserID(userDto.getUserID());
+=======
+		 
+		user.setUserId(userDto.getUserID());
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		user.setUsername(userDto.getUsername());
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());

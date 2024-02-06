@@ -18,8 +18,14 @@ import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.User;
 
 @SpringBootTest
+<<<<<<< HEAD
 public class AdminServiceImpTest {
 	@Autowired
+=======
+class AdminServiceImpTest {
+
+    @Autowired
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
     IAdminService adminService;
 
     @BeforeEach
@@ -85,7 +91,11 @@ public class AdminServiceImpTest {
     void testGetUserById() {
         User user = adminService.getUserById(101);
         assertNotNull(user);
+<<<<<<< HEAD
         assertEquals(101, user.getUserID());
+=======
+        assertEquals(101, user.getUserId());
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
         // Add assertions to verify other properties of user
     }
 

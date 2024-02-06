@@ -15,7 +15,10 @@ import com.hexaware.fastx.entities.BusSchedule;
 import com.hexaware.fastx.repository.BookingRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.BusScheduleRepository;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 @Service
 public class BusOperatorServiceImp implements IBusOperatorService {
 
@@ -138,7 +141,11 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 
 	@Override
 	public List<Booking> viewBookedTickets(int scheduleId) {
+<<<<<<< HEAD
 		return bookingRepo.findByScheduleId(scheduleId);
+=======
+		return bookingRepo.findByBusScheduleId(scheduleId);
+>>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 	}
 
 	@Override
