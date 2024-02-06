@@ -19,6 +19,8 @@ import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.BusSchedule;
 import com.hexaware.fastx.service.IBusOperatorService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/busoperators")
 public class BusOperatorRestController {
@@ -27,12 +29,12 @@ public class BusOperatorRestController {
 	IBusOperatorService service;
 	
 	@PostMapping("/add-bus-route")
-	public BusRoute addBusRoute(@RequestBody BusRouteDTO busRouteDto) {
+	public BusRoute addBusRoute(@RequestBody @Valid BusRouteDTO busRouteDto) {
 		return service.addBusRoute(busRouteDto);
 	}
 	
 	@PutMapping("/update-bus-route")
-	public BusRoute updateBusRoute(@RequestBody BusRouteDTO busRouteDto) {
+	public BusRoute updateBusRoute(@RequestBody @Valid BusRouteDTO busRouteDto) {
 		return service.editBusRoute(busRouteDto);
 	}
 	
@@ -47,12 +49,12 @@ public class BusOperatorRestController {
 	}
 	
 	@PostMapping("/add-bus-schedule")
-	public BusSchedule addBusSchedule(@RequestBody BusScheduleDTO busScheduleDto) {
+	public BusSchedule addBusSchedule(@RequestBody @Valid BusScheduleDTO busScheduleDto) {
 		return service.addBusSchedule(busScheduleDto);
 	}
 	
 	@PutMapping("/edit-bus-schedule")
-	public BusSchedule updateBusSchedule(@RequestBody BusScheduleDTO busScheduleDto) {
+	public BusSchedule updateBusSchedule(@RequestBody @Valid BusScheduleDTO busScheduleDto) {
 		return service.editBusSchedule(busScheduleDto);
 	}
 	

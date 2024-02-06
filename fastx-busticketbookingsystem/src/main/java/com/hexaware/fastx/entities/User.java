@@ -6,19 +6,34 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="User")
 public class User {
 	@Id
+	@Min(value=100, message="Id should be greater then 100")
+	@Max(value=900, message="Id should be less then 900")
+	@GeneratedValue(strategy = GenerationType.AUTO)
     private int userID;
+	@NotBlank(message = "Username is required")
+	@Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
     private String username;
+	@NotBlank(message = "Password is required")
     private String password;
+	@NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     private String email;
     private String firstName;
     private String lastName;

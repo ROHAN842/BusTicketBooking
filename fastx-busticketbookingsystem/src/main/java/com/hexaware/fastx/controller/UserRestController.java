@@ -17,6 +17,8 @@ import com.hexaware.fastx.entities.BusSchedule;
 import com.hexaware.fastx.entities.User;
 import com.hexaware.fastx.service.IUserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
@@ -25,12 +27,12 @@ public class UserRestController {
 	IUserService service;
 	
 	@PostMapping("/add-user")
-	public User registerUser(@RequestBody UserDTO userDto) {
+	public User registerUser(@RequestBody @Valid UserDTO userDto) {
 		return service.registerUser(userDto);
 	}
 	
 	@PutMapping("/update-user")
-	public User updateUser(@RequestBody UserDTO userDto) {
+	public User updateUser(@RequestBody @Valid UserDTO userDto) {
 		return service.updateUserProfile(userDto);
 	}
 	

@@ -19,6 +19,8 @@ import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.User;
 import com.hexaware.fastx.service.IAdminService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admins")
 public class AdminRestController {
@@ -47,12 +49,12 @@ public class AdminRestController {
 	}
 	
 	@PostMapping("/add-bus-route")
-	public BusRoute addBusRoute(@RequestBody BusRouteDTO busRouteDto) {
+	public BusRoute addBusRoute(@RequestBody @Valid BusRouteDTO busRouteDto) {
 		return service.addBusRoute(busRouteDto);
 	}
 	
 	@PutMapping("/update-bus-route")
-	public BusRoute updateBusRoute(@RequestBody BusRouteDTO busRouteDto) {
+	public BusRoute updateBusRoute(@RequestBody @Valid BusRouteDTO busRouteDto) {
 		return service.editBusRoute(busRouteDto);
 	}
 	
