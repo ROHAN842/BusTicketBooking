@@ -9,6 +9,8 @@ import com.hexaware.fastx.entities.BusRoute;
 
 public interface BusRouteRepository extends JpaRepository<BusRoute, Integer> {
 	
-	@Query("select b from Bus_Route b where b.origin = ?1 and b.destination = ?2")
+	@Query(
+			  value = "SELECT * FROM bus_route b where b.origin = ?1 and b.destination = ?2", 
+			  nativeQuery = true)
 	List<BusRoute> getBusRoutesByOriginAndDestination(String origin, String destination);
 }

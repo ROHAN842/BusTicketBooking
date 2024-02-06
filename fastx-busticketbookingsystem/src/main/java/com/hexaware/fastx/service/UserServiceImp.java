@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.fastx.dto.UserDTO;
 import com.hexaware.fastx.entities.Admin;
@@ -17,6 +18,7 @@ import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.BusScheduleRepository;
 import com.hexaware.fastx.repository.UserRepository;
 
+@Service
 public class UserServiceImp implements IUserService {
 
 	@Autowired

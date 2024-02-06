@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.fastx.dto.BusRouteDTO;
 import com.hexaware.fastx.dto.BusScheduleDTO;
@@ -15,6 +16,7 @@ import com.hexaware.fastx.repository.BookingRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.BusScheduleRepository;
 
+@Service
 public class BusOperatorServiceImp implements IBusOperatorService {
 
 	@Autowired

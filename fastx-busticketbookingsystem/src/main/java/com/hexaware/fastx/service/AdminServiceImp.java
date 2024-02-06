@@ -3,6 +3,7 @@ package com.hexaware.fastx.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.fastx.dto.BusRouteDTO;
 import com.hexaware.fastx.entities.Booking;
@@ -14,6 +15,7 @@ import com.hexaware.fastx.repository.BusOperatorRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.UserRepository;
 
+@Service
 public class AdminServiceImp implements IAdminService {
 
 	@Autowired
