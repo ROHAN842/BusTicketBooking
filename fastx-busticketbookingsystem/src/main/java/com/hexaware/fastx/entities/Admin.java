@@ -25,19 +25,11 @@ public class Admin {
     @Min(value = 100, message = "AdminId must be greater than or equal to 100")
     @Max(value = 900, message = "AdminId must be less than or equal to 900")
 	private int adminId;
-<<<<<<< HEAD
-	@NotBlank(message = "AdminUsername is required")
-	private String adminUsername;
-	@NotBlank(message = "AdminPassword is required")
-	private String adminPassword;
-	@NotBlank(message = "EmailId is required")
-=======
     @NotBlank(message = "AdminUsername is required")
 	private String adminUsername;
     @NotBlank(message = "AdminPassword is required")
 	private String adminPassword;
     @NotBlank(message = "EmailId is required")
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
     @Email(message = "Email should be valid")
 	private String emailId;
 	private String phoneNo;

@@ -30,11 +30,7 @@ public class BusOperator {
 	@NotBlank(message = "OperatorUsername is required")
     @Pattern(regexp = "^[a-z]+$", message = "OperatorUsername must contain only lowercase letters")
 	private String operatorUsername;
-<<<<<<< HEAD
-	@NotBlank(message = "OperatorPassword is required")
-=======
     @NotBlank(message = "OperatorPassword is required")
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 	private String operatorPassword;
 	private String operatorname;
 	@NotBlank(message = "EmailId is required")

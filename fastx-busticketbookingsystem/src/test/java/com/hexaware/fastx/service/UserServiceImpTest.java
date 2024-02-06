@@ -1,18 +1,9 @@
 package com.hexaware.fastx.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
-=======
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDateTime;
-import java.util.List;
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,19 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.fastx.dto.UserDTO;
 import com.hexaware.fastx.entities.User;
-<<<<<<< HEAD
 
 @SpringBootTest
 public class UserServiceImpTest {
-	@Autowired
-=======
-import com.hexaware.fastx.service.IUserService;
-
-@SpringBootTest
-class UserServiceImpTest {
-
     @Autowired
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
     IUserService userService;
 
     @BeforeEach
@@ -56,11 +38,7 @@ class UserServiceImpTest {
         User registeredUser = userService.registerUser(userDTO);
 
         assertNotNull(registeredUser);
-<<<<<<< HEAD
-        assertEquals(userDTO.getUserID(), registeredUser.getUserID());
-=======
         assertEquals(userDTO.getUserID(), registeredUser.getUserId());
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
         assertEquals(userDTO.getUsername(), registeredUser.getUsername());
         assertEquals(userDTO.getEmail(), registeredUser.getEmail());
         assertEquals(userDTO.getFirstName(), registeredUser.getFirstName());

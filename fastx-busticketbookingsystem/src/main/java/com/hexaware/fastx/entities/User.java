@@ -26,15 +26,7 @@ public class User {
 	@Min(value=100, message="Id should be greater then 100")
 	@Max(value=900, message="Id should be less then 900")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-<<<<<<< HEAD
-    private int userID;
-	@NotBlank(message = "Username is required")
-	@Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
-    private String username;
-	@NotBlank(message = "Password is required")
-    private String password;
-	@NotBlank(message = "Email is required")
-=======
+   
     private int userId;
     @NotBlank(message = "Username is required")
     @Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
@@ -42,7 +34,6 @@ public class User {
     @NotBlank(message = "Password is required")
     private String password;
     @NotBlank(message = "Email is required")
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
     @Email(message = "Email should be valid")
     private String email;
     private String firstName;

@@ -17,11 +17,6 @@ import com.hexaware.fastx.entities.BusSchedule;
 import com.hexaware.fastx.entities.User;
 import com.hexaware.fastx.service.IUserService;
 
-<<<<<<< HEAD
-import jakarta.validation.Valid;
-
-=======
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
@@ -30,20 +25,12 @@ public class UserRestController {
 	IUserService service;
 	
 	@PostMapping("/add-user")
-<<<<<<< HEAD
-	public User registerUser(@RequestBody @Valid UserDTO userDto) {
-=======
 	public User registerUser(@RequestBody UserDTO userDto) {
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		return service.registerUser(userDto);
 	}
 	
 	@PutMapping("/update-user")
-<<<<<<< HEAD
-	public User updateUser(@RequestBody @Valid UserDTO userDto) {
-=======
 	public User updateUser(@RequestBody UserDTO userDto) {
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		return service.updateUserProfile(userDto);
 	}
 	
@@ -56,8 +43,8 @@ public class UserRestController {
 	public List<BusSchedule> getAvailableSchedulesById(@PathVariable int routeId) {
 		return service.getAvailableSchedules(routeId);
 	}
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
+
+
+

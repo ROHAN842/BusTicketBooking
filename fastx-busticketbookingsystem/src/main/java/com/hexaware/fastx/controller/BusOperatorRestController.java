@@ -19,11 +19,6 @@ import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.BusSchedule;
 import com.hexaware.fastx.service.IBusOperatorService;
 
-<<<<<<< HEAD
-import jakarta.validation.Valid;
-
-=======
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 @RestController
 @RequestMapping("/api/busoperators")
 public class BusOperatorRestController {
@@ -32,20 +27,12 @@ public class BusOperatorRestController {
 	IBusOperatorService service;
 	
 	@PostMapping("/add-bus-route")
-<<<<<<< HEAD
-	public BusRoute addBusRoute(@RequestBody @Valid BusRouteDTO busRouteDto) {
-=======
 	public BusRoute addBusRoute(@RequestBody BusRouteDTO busRouteDto) {
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		return service.addBusRoute(busRouteDto);
 	}
 	
 	@PutMapping("/update-bus-route")
-<<<<<<< HEAD
-	public BusRoute updateBusRoute(@RequestBody @Valid BusRouteDTO busRouteDto) {
-=======
 	public BusRoute updateBusRoute(@RequestBody BusRouteDTO busRouteDto) {
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		return service.editBusRoute(busRouteDto);
 	}
 	
@@ -60,20 +47,12 @@ public class BusOperatorRestController {
 	}
 	
 	@PostMapping("/add-bus-schedule")
-<<<<<<< HEAD
-	public BusSchedule addBusSchedule(@RequestBody @Valid BusScheduleDTO busScheduleDto) {
-=======
 	public BusSchedule addBusSchedule(@RequestBody BusScheduleDTO busScheduleDto) {
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		return service.addBusSchedule(busScheduleDto);
 	}
 	
 	@PutMapping("/edit-bus-schedule")
-<<<<<<< HEAD
-	public BusSchedule updateBusSchedule(@RequestBody @Valid BusScheduleDTO busScheduleDto) {
-=======
 	public BusSchedule updateBusSchedule(@RequestBody BusScheduleDTO busScheduleDto) {
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 		return service.editBusSchedule(busScheduleDto);
 	}
 	

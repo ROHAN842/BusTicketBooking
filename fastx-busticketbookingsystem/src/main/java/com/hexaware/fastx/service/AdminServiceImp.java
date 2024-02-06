@@ -14,10 +14,7 @@ import com.hexaware.fastx.repository.BookingRepository;
 import com.hexaware.fastx.repository.BusOperatorRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.UserRepository;
-<<<<<<< HEAD
 
-=======
->>>>>>> 093fb64fcedde451b3a6440c985ce3047e7fcce4
 @Service
 public class AdminServiceImp implements IAdminService {
 
