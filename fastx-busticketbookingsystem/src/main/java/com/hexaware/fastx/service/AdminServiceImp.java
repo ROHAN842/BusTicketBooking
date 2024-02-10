@@ -58,14 +58,11 @@ public class AdminServiceImp implements IAdminService {
 	public BusRoute addBusRoute(BusRouteDTO busRouteDto) {
 		BusRoute busRoute = new BusRoute();
 		
-		busRoute.setRouteID(busRouteDto.getRouteID());
-		busRoute.setBusNumber(busRouteDto.getBusNumber());
-		busRoute.setBusType(busRouteDto.getBusType());
 		busRoute.setOrigin(busRouteDto.getOrigin());
 		busRoute.setDestination(busRouteDto.getDestination());
-		busRoute.setTimings(busRouteDto.getTimings());
-		busRoute.setFare(busRouteDto.getFare());
-		busRoute.setAmenities(busRouteDto.getAmenities());
+		busRoute.setDistanceCovered(busRouteDto.getDistanceCovered());
+		busRoute.setEstimatedDuration(busRouteDto.getEstimatedDuration());
+		busRoute.setRouteDescription(busRouteDto.getRouteDescription());
 		
 		return busRouteRepo.save(busRoute);
 	}
@@ -74,14 +71,11 @@ public class AdminServiceImp implements IAdminService {
 	public BusRoute editBusRoute(BusRouteDTO busRouteDto) {
 		BusRoute busRoute = new BusRoute();
 		
-		busRoute.setRouteID(busRouteDto.getRouteID());
-		busRoute.setBusNumber(busRouteDto.getBusNumber());
-		busRoute.setBusType(busRouteDto.getBusType());
 		busRoute.setOrigin(busRouteDto.getOrigin());
 		busRoute.setDestination(busRouteDto.getDestination());
-		busRoute.setTimings(busRouteDto.getTimings());
-		busRoute.setFare(busRouteDto.getFare());
-		busRoute.setAmenities(busRouteDto.getAmenities());
+		busRoute.setDistanceCovered(busRouteDto.getDistanceCovered());
+		busRoute.setEstimatedDuration(busRouteDto.getEstimatedDuration());
+		busRoute.setRouteDescription(busRouteDto.getRouteDescription());
 		
 		return busRouteRepo.save(busRoute);
 	}

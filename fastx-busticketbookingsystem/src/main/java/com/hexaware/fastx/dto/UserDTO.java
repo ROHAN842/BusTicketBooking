@@ -3,7 +3,6 @@ package com.hexaware.fastx.dto;
 import java.time.LocalDateTime;
 
 public class UserDTO {
-	private int userID;
     private String username;
     private String password;
     private String email;
@@ -15,10 +14,9 @@ public class UserDTO {
     private int adminId;
     
 	
-	public UserDTO(int userID, String username, String password, String email, String firstName, String lastName,
+	public UserDTO(String username, String password, String email, String firstName, String lastName,
 			String phoneNumber, String address, LocalDateTime registrationDate, int adminId) {
 		super();
-		this.userID = userID;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -32,12 +30,7 @@ public class UserDTO {
 	public UserDTO() {
 		super();
 	}
-	public int getUserID() {
-		return userID;
-	}
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
+	
 	public String getUsername() {
 		return username;
 	}

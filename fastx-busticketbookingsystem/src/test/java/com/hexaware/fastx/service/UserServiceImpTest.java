@@ -14,7 +14,7 @@ import com.hexaware.fastx.dto.UserDTO;
 import com.hexaware.fastx.entities.User;
 
 @SpringBootTest
-public class UserServiceImpTest {
+class UserServiceImpTest {
     @Autowired
     IUserService userService;
 
@@ -25,7 +25,6 @@ public class UserServiceImpTest {
     @Test
     void testRegisterUser() {
         UserDTO userDTO = new UserDTO();
-        userDTO.setUserID(101);
         userDTO.setUsername("TESTUSER");
         userDTO.setPassword("password21");
         userDTO.setEmail("test@gmail.com");
@@ -38,7 +37,6 @@ public class UserServiceImpTest {
         User registeredUser = userService.registerUser(userDTO);
 
         assertNotNull(registeredUser);
-        assertEquals(userDTO.getUserID(), registeredUser.getUserId());
         assertEquals(userDTO.getUsername(), registeredUser.getUsername());
         assertEquals(userDTO.getEmail(), registeredUser.getEmail());
         assertEquals(userDTO.getFirstName(), registeredUser.getFirstName());

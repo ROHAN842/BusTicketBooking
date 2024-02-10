@@ -9,7 +9,6 @@ public class SessionDTO {
     private Date logoutTime;
 	public SessionDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public SessionDTO(int sessionID, String token, Date loginTime, Date logoutTime) {
 		super();

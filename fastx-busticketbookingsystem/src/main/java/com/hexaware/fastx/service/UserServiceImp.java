@@ -1,18 +1,25 @@
 package com.hexaware.fastx.service;
 
-import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.fastx.dto.BookingDTO;
 import com.hexaware.fastx.dto.UserDTO;
 import com.hexaware.fastx.entities.Admin;
 import com.hexaware.fastx.entities.Booking;
+import com.hexaware.fastx.entities.Booking.RefundStatus;
 import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.BusSchedule;
+import com.hexaware.fastx.entities.BusSchedule.Amenities;
 import com.hexaware.fastx.entities.User;
+import com.hexaware.fastx.exception.UserNotFoundException;
 import com.hexaware.fastx.repository.BookingRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.BusScheduleRepository;
@@ -39,7 +46,6 @@ public class UserServiceImp implements IUserService {
 		Admin admin = new Admin();
 		admin.setAdminId(userDto.getAdminId());
 		
-		user.setUserId(userDto.getUserID());
 		user.setUsername(userDto.getUsername());
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
@@ -64,33 +70,46 @@ public class UserServiceImp implements IUserService {
 	}
 
 	@Override
-	public List<String> getAutoSuggestions(String input) {
-		return null;
-	}
-
-	@Override
 	public List<BusSchedule> getAvailableSchedules(int routeId) {
 		return busScheduleRepo.findByRouteId(routeId);
 	}
 
 	@Override
-	public Map<String, Object> getFaresAndAmenities(int routeId, int numberOfSeats) {
-		return null;
+	public Map<Integer, Set<Amenities>> getFaresAndAmenities(int scheduleId) {
+		List<Object[]> results = busScheduleRepo.findScheduleIdAndAmenitiesByScheduleId(scheduleId);
+		
+		Map<Integer, Set<Amenities>> faresAndAmenities = new HashMap<>();
+		for(Object[] result : results) {
+			Integer id = (Integer) result[0];
+			Set<Amenities> amenities = new HashSet<>();
+			for(Object obj : (Object[]) result[1]) {
+				amenities.add(Amenities.valueOf((String) obj));
+			}
+			faresAndAmenities.put(id, amenities);
+		}
+		
+		return faresAndAmenities;
 	}
 
 	@Override
-	public boolean selectSeats(List<String> selectedSeats) {
-		return false;
-	}
-
-	@Override
-	public BigDecimal calculateTotalPrice(int routeId, List<String> selectedSeats) {
-		return null;
-	}
-
-	@Override
-	public Booking bookTickets(int userId, int routeId, List<String> selectedSeats) {
-		return null;
+	public Booking bookTickets(BookingDTO bookingDto) {
+		Booking booking = new Booking();
+		
+		BusSchedule busSchedule = new BusSchedule();
+		busSchedule.setScheduleID(bookingDto.getScheduleId());
+		
+		User user = new User();
+		user.setUserId(bookingDto.getUserId());
+		
+		booking.setTotalNumberOfSeats(bookingDto.getTotalNumberOfSeats());
+		booking.setBookingDate(bookingDto.getBookingDate());
+		booking.setPaymentDate(bookingDto.getPaymentDate());
+		booking.setPaymentStatus(bookingDto.getPaymentStatus());
+		booking.setRefundStatus(bookingDto.getRefundStatus());
+		booking.setUser(user);
+		booking.setBusSchedule(busSchedule);
+		
+		return bookingRepo.save(booking);
 	}
 
 	@Override 
@@ -100,7 +119,7 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public String cancelBooking(int bookingId) {
-		bookingRepo.deleteById(bookingId);
+		bookingRepo.updateRefundStatus(RefundStatus.PENDING, bookingId);
 		
 		return "Booking cancelled";
 	}
@@ -109,9 +128,8 @@ public class UserServiceImp implements IUserService {
 	public User updateUserProfile(UserDTO userDto) {
 		User user = new User();
 		Admin admin = new Admin();
-		admin.setAdminId(userDto.getAdminId());
+		admin.setAdminId(userDto.getAdminId()); // Users never enter adminId. Just for understanding sake we have given it like this
 		 
-		user.setUserId(userDto.getUserID());
 		user.setUsername(userDto.getUsername());
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
@@ -126,8 +144,21 @@ public class UserServiceImp implements IUserService {
 	}
 
 	@Override
-	public boolean changePassword(int userId, String newPassword) {
-		return false;
+	public boolean changePassword(int userId, String newPassword) throws UserNotFoundException {
+		boolean flag = false;
+		
+		Optional<User> existUser = userRepo.findById(userId);
+		if(existUser.isPresent())
+		{
+			int count = userRepo.updatePassword(newPassword, userId);
+			if(count > 0) {
+				flag = true;
+			}
+		} else {
+			throw new UserNotFoundException("User with the given ID not found in DB.");
+		}
+		
+		return flag;
 	}
 
 }

@@ -32,7 +32,7 @@ public class BusOperator {
 	private String operatorUsername;
     @NotBlank(message = "OperatorPassword is required")
 	private String operatorPassword;
-	private String operatorname;
+	private String operatorName;
 	@NotBlank(message = "EmailId is required")
 	@Email(message = "Email should be valid")
 	private String emailId;
@@ -57,14 +57,14 @@ public class BusOperator {
 	}
 
 
-	public BusOperator(int operatorId, String operatorUsername, String operatorPassword, String operatorname,
+	public BusOperator(int operatorId, String operatorUsername, String operatorPassword, String operatorName,
 			String emailId, String phoneNumber, Date registrationDate, Admin admin, Set<JWTToken> jwtToken,
 			Set<AuditLog> auditLog, Set<BusSchedule> busSchedule) {
 		super();
 		this.operatorId = operatorId;
 		this.operatorUsername = operatorUsername;
 		this.operatorPassword = operatorPassword;
-		this.operatorname = operatorname;
+		this.operatorName = operatorName;
 		this.emailId = emailId;
 		this.phoneNumber = phoneNumber;
 		this.registrationDate = registrationDate;
@@ -99,12 +99,12 @@ public class BusOperator {
 		this.operatorPassword = operatorPassword;
 	}
 
-	public String getOperatorname() {
-		return operatorname;
+	public String getoperatorName() {
+		return operatorName;
 	}
 
-	public void setOperatorname(String operatorname) {
-		this.operatorname = operatorname;
+	public void setoperatorName(String operatorName) {
+		this.operatorName = operatorName;
 	}
 
 	public String getEmailId() {
@@ -177,7 +177,7 @@ public class BusOperator {
 	@Override
 	public String toString() {
 		return "BusOperator [operatorId=" + operatorId + ", operatorUsername=" + operatorUsername
-				+ ", operatorPassword=" + operatorPassword + ", operatorname=" + operatorname + ", emailId=" + emailId
+				+ ", operatorPassword=" + operatorPassword + ", operatorName=" + operatorName + ", emailId=" + emailId
 				+ ", phoneNumber=" + phoneNumber + ", registrationDate=" + registrationDate + "]";
 	}
 	

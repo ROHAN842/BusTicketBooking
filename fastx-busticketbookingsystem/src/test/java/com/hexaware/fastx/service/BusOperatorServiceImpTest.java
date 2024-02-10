@@ -17,6 +17,10 @@ import com.hexaware.fastx.dto.BusScheduleDTO;
 import com.hexaware.fastx.entities.Booking;
 import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.BusSchedule;
+import com.hexaware.fastx.exception.BookingNotFoundException;
+import com.hexaware.fastx.exception.BusRouteNotFoundException;
+import com.hexaware.fastx.exception.ScheduleNotFoundException;
+import com.hexaware.fastx.exception.SeatUnavailableException;
 
 @SpringBootTest
 class BusOperatorServiceImpTest {
@@ -36,10 +40,11 @@ class BusOperatorServiceImpTest {
     }
 
     @Test
-    void testEditBusRoute() {
+    void testEditBusRoute() throws BusRouteNotFoundException {
         BusRouteDTO busRouteDto = new BusRouteDTO();
         // Set properties of busRouteDto
-        BusRoute busRoute = busOperatorService.editBusRoute(busRouteDto);
+        int routeId = 1;
+        BusRoute busRoute = busOperatorService.editBusRoute(busRouteDto, routeId);
         assertNotNull(busRoute);
         // Add assertions to verify properties of busRoute
     }
@@ -67,9 +72,10 @@ class BusOperatorServiceImpTest {
     }
 
     @Test
-    void testEditBusSchedule() {
+    void testEditBusSchedule() throws ScheduleNotFoundException {
         BusScheduleDTO busScheduleDto = new BusScheduleDTO();
-        BusSchedule busSchedule = busOperatorService.editBusSchedule(busScheduleDto);
+        int scheduleId = 1;
+        BusSchedule busSchedule = busOperatorService.editBusSchedule(busScheduleDto, scheduleId);
         assertNotNull(busSchedule);
     }
 
@@ -87,14 +93,14 @@ class BusOperatorServiceImpTest {
     }
 
     @Test
-    void testSetFares() {
-        boolean result = busOperatorService.setFares(201, BigDecimal.valueOf(50));
+    void testSetFares() throws ScheduleNotFoundException {
+        boolean result = busOperatorService.updateFares(201, BigDecimal.valueOf(50));
         assertTrue(result);
     }
 
     @Test
-    void testManageSeatAvailability() {
-        boolean result = busOperatorService.manageSeatAvailability(301, 40);
+    void testManageSeatAvailability() throws SeatUnavailableException {
+        boolean result = busOperatorService.manageSeatAvailability(301);
         assertTrue(result);
     }
 
@@ -106,7 +112,7 @@ class BusOperatorServiceImpTest {
     }
 
     @Test
-    void testRefundCancelledTickets() {
+    void testRefundCancelledTickets() throws BookingNotFoundException {
         boolean result = busOperatorService.refundCancelledTickets(501);
         assertTrue(result);
     }

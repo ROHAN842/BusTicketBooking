@@ -1,13 +1,11 @@
 package com.hexaware.fastx.entities;
 
-import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,53 +18,34 @@ public class BusRoute {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private int routeID;
-    private String busNumber;
-    @Enumerated(EnumType.STRING)
-    private BusType busType;
     private String origin;
     private String destination;
-    private Time timings;
-    private BigDecimal fare;
-    @Enumerated(EnumType.STRING)
-    private Set<Amenities> amenities;
+    private int distanceCovered;
+    private Time estimatedDuration;
+    private String routeDescription;
     
     //One to many relationship from BusRoute to BusSchedule 
-    @OneToMany(mappedBy = "busRoute")
+    @OneToMany(mappedBy = "busRoute", cascade = CascadeType.ALL)
     private Set<BusSchedule> schedules = new HashSet<>();
     
-    
-    
-    // Enum for BusType
-    public enum BusType {
-        SLEEPER_WITH_AC, SLEEPER_WITHOUT_AC, SEAT_WITH_AC, SEAT_WITHOUT_AC
-    }
-
-    // Enum for Amenities
-    public enum Amenities {
-        WATER_BOTTLE, CHARGING_POINT, TV, BLANKET
-    }
 
     //Default Constructor
 	public BusRoute() {
 		super();
 	}
-
-	//Parameterized Constructor
-	public BusRoute(int routeID, String busNumber, BusType busType, String origin, String destination, Time timings,
-			BigDecimal fare, Set<Amenities> amenities, Set<BusSchedule> schedules) {
+	
+    public BusRoute(int routeID, String origin, String destination, int distanceCovered, Time estimatedDuration,
+			String routeDescription, Set<BusSchedule> schedules) {
 		super();
 		this.routeID = routeID;
-		this.busNumber = busNumber;
-		this.busType = busType;
 		this.origin = origin;
 		this.destination = destination;
-		this.timings = timings;
-		this.fare = fare;
-		this.amenities = amenities;
+		this.distanceCovered = distanceCovered;
+		this.estimatedDuration = estimatedDuration;
+		this.routeDescription = routeDescription;
 		this.schedules = schedules;
 	}
-	
-    //FOr one to many relationship between busRoute to BusSchedule 
+
 	
     public Set<BusSchedule> getSchedules() {
         return schedules;
@@ -86,32 +65,12 @@ public class BusRoute {
         schedule.setBusRoute(null);
     }
 	
-    //FOr one to many relationship between busRoute to  BusSchedule
-
-
-	//Getters and Setters Start
-	public int getRouteID() {
+    public int getRouteID() {
 		return routeID;
 	}
 
 	public void setRouteID(int routeID) {
 		this.routeID = routeID;
-	}
-
-	public String getBusNumber() {
-		return busNumber;
-	}
-
-	public void setBusNumber(String busNumber) {
-		this.busNumber = busNumber;
-	}
-
-	public BusType getBusType() {
-		return busType;
-	}
-
-	public void setBusType(BusType busType) {
-		this.busType = busType;
 	}
 
 	public String getOrigin() {
@@ -130,38 +89,35 @@ public class BusRoute {
 		this.destination = destination;
 	}
 
-	public Time getTimings() {
-		return timings;
+	public int getDistanceCovered() {
+		return distanceCovered;
 	}
 
-	public void setTimings(Time timings) {
-		this.timings = timings;
+	public void setDistanceCovered(int distanceCovered) {
+		this.distanceCovered = distanceCovered;
 	}
 
-	public BigDecimal getFare() {
-		return fare;
+	public Time getEstimatedDuration() {
+		return estimatedDuration;
 	}
 
-	public void setFare(BigDecimal fare) {
-		this.fare = fare;
+	public void setEstimatedDuration(Time estimatedDuration) {
+		this.estimatedDuration = estimatedDuration;
 	}
 
-	public Set<Amenities> getAmenities() {
-		return amenities;
+	public String getRouteDescription() {
+		return routeDescription;
 	}
 
-	public void setAmenities(Set<Amenities> amenities) {
-		this.amenities = amenities;
+	public void setRouteDescription(String routeDescription) {
+		this.routeDescription = routeDescription;
 	}
-	//Getters and Setters End
 
-	
-	//ToString Method
 	@Override
 	public String toString() {
-		return "BusRoute [routeID=" + routeID + ", busNumber=" + busNumber + ", busType=" + busType + ", origin="
-				+ origin + ", destination=" + destination + ", timings=" + timings + ", fare=" + fare + ", amenities="
-				+ amenities + "]";
+		return "BusRoute [routeID=" + routeID + ", origin=" + origin + ", destination=" + destination
+				+ ", distanceCovered=" + distanceCovered + ", estimatedDuration=" + estimatedDuration
+				+ ", routeDescription=" + routeDescription + ", schedules=" + schedules + "]";
 	}
 	
 }

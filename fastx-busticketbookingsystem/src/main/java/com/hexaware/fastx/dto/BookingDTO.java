@@ -9,38 +9,35 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 public class BookingDTO {
-	private int bookingID;
-    private String seatNumber;
+	private int totalNumberOfSeats;
     private Date bookingDate;
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
     private Date paymentDate;
     @Enumerated(EnumType.STRING)
     private RefundStatus refundStatus;
+    private int userId;
+    private int scheduleId;
+    
+    
 	public BookingDTO() {
 		super();
 	}
-	public BookingDTO(int bookingID, String seatNumber, Date bookingDate, PaymentStatus paymentStatus, Date paymentDate,
+	public BookingDTO(int totalNumberOfSeats, Date bookingDate, PaymentStatus paymentStatus, Date paymentDate,
 			RefundStatus refundStatus) {
 		super();
-		this.bookingID = bookingID;
-		this.seatNumber = seatNumber;
+		this.totalNumberOfSeats = totalNumberOfSeats;
 		this.bookingDate = bookingDate;
 		this.paymentStatus = paymentStatus;
 		this.paymentDate = paymentDate;
 		this.refundStatus = refundStatus;
 	}
-	public int getBookingID() {
-		return bookingID;
+	
+	public int getTotalNumberOfSeats() {
+		return totalNumberOfSeats;
 	}
-	public void setBookingID(int bookingID) {
-		this.bookingID = bookingID;
-	}
-	public String getSeatNumber() {
-		return seatNumber;
-	}
-	public void setSeatNumber(String seatNumber) {
-		this.seatNumber = seatNumber;
+	public void setTotalNumberOfSeats(int totalNumberOfSeats) {
+		this.totalNumberOfSeats = totalNumberOfSeats;
 	}
 	public Date getBookingDate() {
 		return bookingDate;
@@ -65,6 +62,18 @@ public class BookingDTO {
 	}
 	public void setRefundStatus(RefundStatus refundStatus) {
 		this.refundStatus = refundStatus;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public int getScheduleId() {
+		return scheduleId;
+	}
+	public void setScheduleId(int scheduleId) {
+		this.scheduleId = scheduleId;
 	}
     
     

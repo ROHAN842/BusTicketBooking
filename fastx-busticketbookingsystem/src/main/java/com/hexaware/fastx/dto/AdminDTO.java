@@ -3,7 +3,6 @@ package com.hexaware.fastx.dto;
 import java.sql.Date;
 
 public class AdminDTO {
-	private int adminId;
 	private String adminUsername;
 	private String adminPassword;
 	private String emailId;
@@ -12,22 +11,16 @@ public class AdminDTO {
 	public AdminDTO() {
 		super();
 	}
-	public AdminDTO(int adminId, String adminUsername, String adminPassword, String emailId, String phoneNo,
+	public AdminDTO(String adminUsername, String adminPassword, String emailId, String phoneNo,
 			Date registrationDate) {
 		super();
-		this.adminId = adminId;
 		this.adminUsername = adminUsername;
 		this.adminPassword = adminPassword;
 		this.emailId = emailId;
 		this.phoneNo = phoneNo;
 		this.registrationDate = registrationDate;
 	}
-	public int getAdminId() {
-		return adminId;
-	}
-	public void setAdminId(int adminId) {
-		this.adminId = adminId;
-	}
+	
 	public String getAdminUsername() {
 		return adminUsername;
 	}

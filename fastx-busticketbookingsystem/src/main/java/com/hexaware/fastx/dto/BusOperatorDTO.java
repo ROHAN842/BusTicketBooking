@@ -3,7 +3,6 @@ package com.hexaware.fastx.dto;
 import java.sql.Date;
 
 public class BusOperatorDTO {
-	private int operatorId;
 	private String operatorUsername;
 	private String operatorPassword;
 	private String operatorname;
@@ -13,10 +12,9 @@ public class BusOperatorDTO {
 	public BusOperatorDTO() {
 		super();
 	}
-	public BusOperatorDTO(int operatorId, String operatorUsername, String operatorPassword, String operatorname,
+	public BusOperatorDTO(String operatorUsername, String operatorPassword, String operatorname,
 			String emailId, String phoneNumber, Date registrationDate) {
 		super();
-		this.operatorId = operatorId;
 		this.operatorUsername = operatorUsername;
 		this.operatorPassword = operatorPassword;
 		this.operatorname = operatorname;
@@ -24,12 +22,7 @@ public class BusOperatorDTO {
 		this.phoneNumber = phoneNumber;
 		this.registrationDate = registrationDate;
 	}
-	public int getOperatorId() {
-		return operatorId;
-	}
-	public void setOperatorId(int operatorId) {
-		this.operatorId = operatorId;
-	}
+	
 	public String getOperatorUsername() {
 		return operatorUsername;
 	}

@@ -23,7 +23,7 @@ public class Booking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingID;
-    private String seatNumber;
+	private int totalNumberOfSeats;
     private Date bookingDate;
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
@@ -57,7 +57,7 @@ public class Booking {
 
     // Enum for RefundStatus
     public enum RefundStatus {
-        PENDING, PROCESSED
+        PENDING, PROCESSED, NOT_REQUIRED
     }
 
     //Default Constructor
@@ -66,11 +66,11 @@ public class Booking {
 	}
 
 	//Parameterized Constructor
-	public Booking(int bookingID, String seatNumber, Date bookingDate,
-			PaymentStatus paymentStatus, Date paymentDate, RefundStatus refundStatus) {
+	public Booking(int bookingID, int totalNumberOfSeats, Date bookingDate, PaymentStatus paymentStatus,
+			Date paymentDate, RefundStatus refundStatus) {
 		super();
 		this.bookingID = bookingID;
-		this.seatNumber = seatNumber;
+		this.totalNumberOfSeats = totalNumberOfSeats;
 		this.bookingDate = bookingDate;
 		this.paymentStatus = paymentStatus;
 		this.paymentDate = paymentDate;
@@ -81,7 +81,8 @@ public class Booking {
     public User getUser() {
         return user;
     }
-    //Set User method created while mapping many to one relationship between booking to user
+
+	//Set User method created while mapping many to one relationship between booking to user
     public void setUser(User user) {
         this.user = user;
     }
@@ -94,9 +95,6 @@ public class Booking {
         this.busSchedule = busSchedule;
     }
 
-    
-    
-    
 	//Getters and Setters Start
 
 	public int getBookingID() {
@@ -107,13 +105,12 @@ public class Booking {
 		this.bookingID = bookingID;
 	}
 
-
-	public String getSeatNumber() {
-		return seatNumber;
+	public int getTotalNumberOfSeats() {
+		return totalNumberOfSeats;
 	}
 
-	public void setSeatNumber(String seatNumber) {
-		this.seatNumber = seatNumber;
+	public void setTotalNumberOfSeats(int totalNumberOfSeats) {
+		this.totalNumberOfSeats = totalNumberOfSeats;
 	}
 
 	public Date getBookingDate() {
@@ -147,16 +144,14 @@ public class Booking {
 	public void setRefundStatus(RefundStatus refundStatus) {
 		this.refundStatus = refundStatus;
 	}
-	
-
 
 	//Getters and Setters End
 
 	//ToString Method
 	@Override
 	public String toString() {
-		return "Booking [bookingID=" + bookingID + ", seatNumber="
-				+ seatNumber + ", bookingDate=" + bookingDate + ", paymentStatus=" + paymentStatus + ", paymentDate="
-				+ paymentDate + ", refundStatus=" + refundStatus + "]";
+		return "Booking [bookingID=" + bookingID + ", totalNumberOfSeats=" + totalNumberOfSeats + ", bookingDate="
+				+ bookingDate + ", paymentStatus=" + paymentStatus + ", paymentDate=" + paymentDate + ", refundStatus="
+				+ refundStatus + ", user=" + user + ", busSchedule=" + busSchedule + "]";
 	}
 }

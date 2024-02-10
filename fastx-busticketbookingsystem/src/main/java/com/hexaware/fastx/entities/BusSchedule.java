@@ -1,11 +1,12 @@
 package com.hexaware.fastx.entities;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,11 +25,17 @@ public class BusSchedule {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private int scheduleID;
+	private String busNumber;
     private int availableSeats;
     private Date date;
+    private Time timings;
+    private BigDecimal fare;
     @Enumerated(EnumType.STRING)
     private Status status;
-    
+    @Enumerated(EnumType.STRING)
+    private Set<Amenities> amenities;
+    @Enumerated(EnumType.STRING)
+    private BusType busType;
 
     // Collection of Booking entities, one to many relationship from busSchedule to booking 
     @OneToMany(mappedBy = "busSchedule", cascade = CascadeType.ALL)
@@ -48,82 +55,37 @@ public class BusSchedule {
     public enum Status {
         ACTIVE, INACTIVE
     }
+    
+    // Enum for BusType
+    public enum BusType {
+        SLEEPER_WITH_AC, SLEEPER_WITHOUT_AC, SEAT_WITH_AC, SEAT_WITHOUT_AC
+    }
+
+    // Enum for Amenities
+    public enum Amenities {
+        WATER_BOTTLE, CHARGING_POINT, TV, BLANKET
+    }
 
     //Default Constructor
 	public BusSchedule() {
 		super();
 	}
-
-	//Parameterized Constructor
-	public BusSchedule(int scheduleID, int availableSeats, Date date, Status status, Set<Booking> bookings) {
+	
+	public BusSchedule(int scheduleID, String busNumber, int availableSeats, Date date, Time timings, BigDecimal fare,
+			Status status, Set<Amenities> amenities, BusType busType, Set<Booking> bookings) {
 		super();
 		this.scheduleID = scheduleID;
+		this.busNumber = busNumber;
 		this.availableSeats = availableSeats;
 		this.date = date;
+		this.timings = timings;
+		this.fare = fare;
 		this.status = status;
+		this.amenities = amenities;
+		this.busType = busType;
 		this.bookings = bookings;
 	}
-	
-	// Parameterized constructor for many to one as it can't contain Set<Bookings> bookings method for it  
-	public BusSchedule(int scheduleID, int availableSeats, Date date, Status status) {
-		super();
-		this.scheduleID = scheduleID;
-		this.availableSeats = availableSeats;
-		this.date = date;
-		this.status = status;
-	}
-	
-	// For many to one relationship between busSchedule to busRoute start
-	
-	//Get User method created while mapping many to one relationship between busSchedule to busRoute start
-    public BusRoute getBusRoute() {
-        return busRoute;
-    }
-    //Set User method created while mapping many to one relationship between busSchedule to busRoute start
-    public void setBusRoute(BusRoute busRoute) {
-        this.busRoute = busRoute;
-    }
-	
-	// For many to one relationship between busSchedule to busRoute end
 
-	
-	// For many to one relationship between busSchedule to busOperator start
-	
-	//Get User method created while mapping many to one relationship between busSchedule to busOperator start
-    public BusOperator getOperator() {
-        return operator;
-    }
-    //Set User method created while mapping many to one relationship between busSchedule to busOperator start
-    public void setOperator(BusOperator operator) {
-        this.operator = operator;
-    }
-	
-	// For many to one relationship between busSchedule to busOperator end
-    
-    
-    //FOr one to many relationship between BusSchedule to booking
-
-    public Set<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(Set<Booking> bookings) {
-        this.bookings = bookings;
-    }
-
-    public void addBooking(Booking booking) {
-        bookings.add(booking);
-        booking.setBusSchedule(this);
-    }
-
-    public void removeBooking(Booking booking) {
-        bookings.remove(booking);
-        booking.setBusSchedule(null);
-    }
-    //FOr one to many relationship between BusSchedule to booking
-
-
-	//Getters and Setters Start
 	public int getScheduleID() {
 		return scheduleID;
 	}
@@ -132,6 +94,13 @@ public class BusSchedule {
 		this.scheduleID = scheduleID;
 	}
 
+	public String getBusNumber() {
+		return busNumber;
+	}
+
+	public void setBusNumber(String busNumber) {
+		this.busNumber = busNumber;
+	}
 
 	public int getAvailableSeats() {
 		return availableSeats;
@@ -149,6 +118,22 @@ public class BusSchedule {
 		this.date = date;
 	}
 
+	public Time getTimings() {
+		return timings;
+	}
+
+	public void setTimings(Time timings) {
+		this.timings = timings;
+	}
+
+	public BigDecimal getFare() {
+		return fare;
+	}
+
+	public void setFare(BigDecimal fare) {
+		this.fare = fare;
+	}
+
 	public Status getStatus() {
 		return status;
 	}
@@ -156,12 +141,53 @@ public class BusSchedule {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-    //Getters and Setters End
 
-	//ToString Method
+	public Set<Amenities> getAmenities() {
+		return amenities;
+	}
+
+	public void setAmenities(Set<Amenities> amenities) {
+		this.amenities = amenities;
+	}
+
+	public BusType getBusType() {
+		return busType;
+	}
+
+	public void setBusType(BusType busType) {
+		this.busType = busType;
+	}
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public BusRoute getBusRoute() {
+		return busRoute;
+	}
+
+	public void setBusRoute(BusRoute busRoute) {
+		this.busRoute = busRoute;
+	}
+
+	public BusOperator getOperator() {
+		return operator;
+	}
+
+	public void setOperator(BusOperator operator) {
+		this.operator = operator;
+	}
+
 	@Override
 	public String toString() {
-		return "BusSchedule [scheduleID=" + scheduleID + ", operatorID=" + ", availableSeats=" + availableSeats + ", date=" + date + ", status=" + status + "]";
+		return "BusSchedule [scheduleID=" + scheduleID + ", busNumber=" + busNumber + ", availableSeats="
+				+ availableSeats + ", date=" + date + ", timings=" + timings + ", fare=" + fare + ", status=" + status
+				+ ", amenities=" + amenities + ", busType=" + busType + ", bookings=" + bookings + ", busRoute="
+				+ busRoute + ", operator=" + operator + "]";
 	}
 
 }
