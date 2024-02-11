@@ -20,11 +20,13 @@ import com.hexaware.fastx.exception.BookingNotFoundException;
 import com.hexaware.fastx.exception.BusRouteNotFoundException;
 import com.hexaware.fastx.exception.ScheduleNotFoundException;
 import com.hexaware.fastx.exception.SeatUnavailableException;
+import com.hexaware.fastx.repository.AdminRepository;
 import com.hexaware.fastx.repository.BookingRepository;
 import com.hexaware.fastx.repository.BusOperatorRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.BusScheduleRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Transactional
@@ -43,11 +45,14 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 	@Autowired
 	BusOperatorRepository busOperatorRepo;
 	
+	@Autowired
+	AdminRepository adminRepository;
+	
 	@Override
 	public BusOperator registerBusOperator(BusOperatorDTO busOperatorDto) {
 		BusOperator busOperator = new BusOperator();
-		Admin admin = new Admin();
-		admin.setAdminId(1);
+		Admin admin = adminRepository.findById(1)
+                .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID"));
 		
 		busOperator.setOperatorUsername(busOperatorDto.getOperatorUsername());
 		busOperator.setOperatorPassword(busOperatorDto.getOperatorPassword());
@@ -115,11 +120,11 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 	public BusSchedule addBusSchedule(BusScheduleDTO busScheduleDto) {
 		BusSchedule busSchedule = new BusSchedule();
 		
-		BusRoute busRoute = new BusRoute();
-		busRoute.setRouteID(busScheduleDto.getRouteId());
+		BusRoute busRoute = busRouteRepo.findById(busScheduleDto.getRouteId())
+				.orElseThrow(() -> new EntityNotFoundException("Route not found!"));
 		
-		BusOperator busOperator = new BusOperator();
-		busOperator.setOperatorId(busScheduleDto.getOperatorId());
+		BusOperator busOperator = busOperatorRepo.findById(busScheduleDto.getOperatorId())
+				.orElseThrow(() -> new EntityNotFoundException("Operator not found!"));
 		
 		busSchedule.setBusNumber(busScheduleDto.getBusNumber());
 		busSchedule.setAvailableSeats(busScheduleDto.getAvailableSeats());

@@ -1,6 +1,6 @@
 package com.hexaware.fastx.dto;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 public class UserDTO {
     private String username;
@@ -10,12 +10,12 @@ public class UserDTO {
     private String lastName;
     private String phoneNumber;
     private String address;
-    private LocalDateTime registrationDate;
+    private Date registrationDate;
     private int adminId;
     
 	
 	public UserDTO(String username, String password, String email, String firstName, String lastName,
-			String phoneNumber, String address, LocalDateTime registrationDate, int adminId) {
+			String phoneNumber, String address, Date registrationDate, int adminId) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -73,16 +73,16 @@ public class UserDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public LocalDateTime getRegistrationDate() {
+	public Date getRegistrationDate() {
 		return registrationDate;
 	}
-	public void setRegistrationDate(LocalDateTime registrationDate) {
+	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 	public int getAdminId() {
 		return adminId;
 	}
-	public void setAdminId(int adminId) {
+	public void setAdmin(int adminId) {
 		this.adminId = adminId;
 	}
     

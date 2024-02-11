@@ -2,6 +2,8 @@ package com.hexaware.fastx.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ public class Session {
     //for many to one relationship between session to user 
     @ManyToOne
     @JoinColumn(name = "userID")
+    @JsonIgnore
     private User user;
     
     

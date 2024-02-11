@@ -6,6 +6,8 @@ import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,11 +46,13 @@ public class BusSchedule {
     // Many to one relationship from busSchdule to BusRoute 
     @ManyToOne
     @JoinColumn(name = "routeID")
+    @JsonIgnore
     private BusRoute busRoute;
     
     // Many to one relationship from busSchdule to BusOperator 
     @ManyToOne
     @JoinColumn(name = "busoperatorID")
+    @JsonIgnore
     private BusOperator operator;
     
     // Enum for Status

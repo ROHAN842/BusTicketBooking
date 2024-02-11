@@ -31,7 +31,7 @@ public interface IUserService {
 
     String cancelBooking(int bookingId);
 
-    User updateUserProfile(UserDTO userDto);
+    User updateUserProfile(UserDTO userDto, int userId) throws UserNotFoundException;
 
     boolean changePassword(int userId, String newPassword) throws UserNotFoundException;
 

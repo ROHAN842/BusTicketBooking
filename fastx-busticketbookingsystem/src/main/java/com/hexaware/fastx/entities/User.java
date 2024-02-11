@@ -1,8 +1,10 @@
 package com.hexaware.fastx.entities;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -29,7 +31,7 @@ public class User {
    
     private int userId;
     @NotBlank(message = "Username is required")
-    @Pattern(regexp = "[A-Z]+", message = "Username must be in uppercase")
+    @Pattern(regexp = ".*[A-Z].*", message = "Username must be in uppercase")
     private String username;
     @NotBlank(message = "Password is required")
     private String password;
@@ -40,7 +42,7 @@ public class User {
     private String lastName;
     private String phoneNumber;
     private String address;
-    private LocalDateTime registrationDate;
+    private Date registrationDate;
     
     //FOr one to many relationship between user to booking
     // Collection of Booking entities, one to many relationship from User to booking 
@@ -61,8 +63,9 @@ public class User {
     private Set<AuditLog> auditLogs = new HashSet<>();
     
     // Many to One 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "adminId")
+	@ManyToOne
+	@JoinColumn(name = "admin_id")
+	@JsonIgnore
 	private Admin admin;
 	
 	
@@ -83,7 +86,7 @@ public class User {
 
 	//Parameterized Constructor
 	public User(int userId, String username, String password, String email, String firstName, String lastName,
-			String phoneNumber, String address, LocalDateTime registrationDate, Set<Booking> bookings, Set<JWTToken> jwtTokens,
+			String phoneNumber, String address, Date registrationDate, Set<Booking> bookings, Set<JWTToken> jwtTokens,
 			Set<Session> sessions, Set<AuditLog> auditLogs) {
 		super();
 		this.userId = userId;
@@ -251,11 +254,11 @@ public class User {
 		this.address = address;
 	}
 
-	public LocalDateTime getRegistrationDate() {
+	public Date getRegistrationDate() {
 		return registrationDate;
 	}
 
-	public void setRegistrationDate(LocalDateTime registrationDate) {
+	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 	

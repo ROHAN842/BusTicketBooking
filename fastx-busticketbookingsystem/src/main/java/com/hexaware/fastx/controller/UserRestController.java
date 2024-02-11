@@ -37,9 +37,9 @@ public class UserRestController {
 		return service.registerUser(userDto);
 	}
 	
-	@PutMapping("/update-user")
-	public User updateUser(@RequestBody @Valid UserDTO userDto) {
-		return service.updateUserProfile(userDto);
+	@PutMapping("/update-user/{userId}")
+	public User updateUser(@RequestBody @Valid UserDTO userDto, @PathVariable int userId) throws UserNotFoundException {
+		return service.updateUserProfile(userDto, userId);
 	}
 	
 	@GetMapping("/get-busroute-by-origin-destination/{origin}/{destination}")

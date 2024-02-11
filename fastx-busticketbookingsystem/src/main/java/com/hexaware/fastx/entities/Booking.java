@@ -2,6 +2,8 @@ package com.hexaware.fastx.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,11 +36,13 @@ public class Booking {
     //for many to one relationship between booking to user 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private User user;
     
     //for many to one relationship between booking to busSchedule 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "scheduleID")
+    @JsonIgnore
     private BusSchedule busSchedule;
 
     

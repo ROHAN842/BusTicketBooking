@@ -117,7 +117,7 @@ public class BusRoute {
 	public String toString() {
 		return "BusRoute [routeID=" + routeID + ", origin=" + origin + ", destination=" + destination
 				+ ", distanceCovered=" + distanceCovered + ", estimatedDuration=" + estimatedDuration
-				+ ", routeDescription=" + routeDescription + ", schedules=" + schedules + "]";
+				+ ", routeDescription=" + routeDescription;
 	}
 	
 }

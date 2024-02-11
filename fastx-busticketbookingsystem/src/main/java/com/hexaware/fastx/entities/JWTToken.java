@@ -2,6 +2,8 @@ package com.hexaware.fastx.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,14 +25,17 @@ public class JWTToken {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "BusOperatorId")
+	@JsonIgnore
 	private BusOperator busOperator;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "adminId")
+	@JsonIgnore
 	private Admin admin;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userId")
+	@JsonIgnore
 	private User user;
 
 	public JWTToken() {

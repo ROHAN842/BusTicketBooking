@@ -2,7 +2,8 @@ package com.hexaware.fastx.entities;
 
 import java.sql.Date;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,16 +23,19 @@ public class AuditLog {
 	private Date ActivityTime;
 	private String details;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "adminId")
+	@JsonIgnore
 	private Admin admin;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "BusOperatorId")
+	@ManyToOne
+	@JoinColumn(name = "operatorId")
+	@JsonIgnore
 	private BusOperator busOperator;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "UserId")
+	@JsonIgnore
 	private User user;
 	
 	public AuditLog() {

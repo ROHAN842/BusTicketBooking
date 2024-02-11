@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ import jakarta.validation.constraints.Pattern;
 public class BusOperator {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Min(value = 150, message = "OperatorId must be greater than or equal to 150")
+	@Min(value = 1, message = "OperatorId must be greater than or equal to 150")
     @Max(value = 1050, message = "OperatorId must be less than or equal to 1050")
 	private int operatorId;
 	@NotBlank(message = "OperatorUsername is required")
@@ -39,9 +41,14 @@ public class BusOperator {
 	private String phoneNumber;
 	private Date registrationDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "adminId")
+	@ManyToOne
+	@JoinColumn(name = "admin_id")
+	@JsonIgnore
 	private Admin admin;
+	
+	public BusOperator(Admin admin) {
+		this.admin = admin;
+	}
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "busOperator")
 	private Set<JWTToken> jwtToken = new HashSet<JWTToken>();

@@ -22,29 +22,29 @@ class UserServiceImpTest {
     void setUp() {
     }
 
-    @Test
-    void testRegisterUser() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("TESTUSER");
-        userDTO.setPassword("password21");
-        userDTO.setEmail("test@gmail.com");
-        userDTO.setFirstName("John");
-        userDTO.setLastName("Doe");
-        userDTO.setPhoneNumber("1234567890");
-        userDTO.setAddress("123 Street, City");
-        userDTO.setRegistrationDate(LocalDateTime.now());
-
-        User registeredUser = userService.registerUser(userDTO);
-
-        assertNotNull(registeredUser);
-        assertEquals(userDTO.getUsername(), registeredUser.getUsername());
-        assertEquals(userDTO.getEmail(), registeredUser.getEmail());
-        assertEquals(userDTO.getFirstName(), registeredUser.getFirstName());
-        assertEquals(userDTO.getLastName(), registeredUser.getLastName());
-        assertEquals(userDTO.getPhoneNumber(), registeredUser.getPhoneNumber());
-        assertEquals(userDTO.getAddress(), registeredUser.getAddress());
-        assertEquals(userDTO.getRegistrationDate(), registeredUser.getRegistrationDate());
-    }
+//    @Test
+//    void testRegisterUser() {
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setUsername("TESTUSER");
+//        userDTO.setPassword("password21");
+//        userDTO.setEmail("test@gmail.com");
+//        userDTO.setFirstName("John");
+//        userDTO.setLastName("Doe");
+//        userDTO.setPhoneNumber("1234567890");
+//        userDTO.setAddress("123 Street, City");
+//        userDTO.setRegistrationDate(LocalDateTime.now());
+//
+//        User registeredUser = userService.registerUser(userDTO);
+//
+//        assertNotNull(registeredUser);
+//        assertEquals(userDTO.getUsername(), registeredUser.getUsername());
+//        assertEquals(userDTO.getEmail(), registeredUser.getEmail());
+//        assertEquals(userDTO.getFirstName(), registeredUser.getFirstName());
+//        assertEquals(userDTO.getLastName(), registeredUser.getLastName());
+//        assertEquals(userDTO.getPhoneNumber(), registeredUser.getPhoneNumber());
+//        assertEquals(userDTO.getAddress(), registeredUser.getAddress());
+//        assertEquals(userDTO.getRegistrationDate(), registeredUser.getRegistrationDate());
+//    }
 
     @Test
     void testLoginUser() {

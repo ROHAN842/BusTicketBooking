@@ -20,12 +20,17 @@ import com.hexaware.fastx.entities.BusSchedule;
 import com.hexaware.fastx.entities.BusSchedule.Amenities;
 import com.hexaware.fastx.entities.User;
 import com.hexaware.fastx.exception.UserNotFoundException;
+import com.hexaware.fastx.repository.AdminRepository;
 import com.hexaware.fastx.repository.BookingRepository;
 import com.hexaware.fastx.repository.BusRouteRepository;
 import com.hexaware.fastx.repository.BusScheduleRepository;
 import com.hexaware.fastx.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class UserServiceImp implements IUserService {
 
 	@Autowired 
@@ -40,11 +45,15 @@ public class UserServiceImp implements IUserService {
 	@Autowired
 	BookingRepository bookingRepo;
 	
+	@Autowired
+	AdminRepository adminRepository;
+	
 	@Override
 	public User registerUser(UserDTO userDto) {
 		User user = new User();
-		Admin admin = new Admin();
-		admin.setAdminId(userDto.getAdminId());
+		// Load the Admin entity from the database
+	    Admin admin = adminRepository.findById(userDto.getAdminId())
+	                                 .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: " + userDto.getAdminId()));
 		
 		user.setUsername(userDto.getUsername());
 		user.setPassword(userDto.getPassword());
@@ -95,11 +104,11 @@ public class UserServiceImp implements IUserService {
 	public Booking bookTickets(BookingDTO bookingDto) {
 		Booking booking = new Booking();
 		
-		BusSchedule busSchedule = new BusSchedule();
-		busSchedule.setScheduleID(bookingDto.getScheduleId());
+		BusSchedule busSchedule = busScheduleRepo.findById(bookingDto.getScheduleId())
+				.orElseThrow(() -> new EntityNotFoundException("Bus Schedule not found"));
 		
-		User user = new User();
-		user.setUserId(bookingDto.getUserId());
+		User user = userRepo.findById(bookingDto.getUserId())
+				.orElseThrow(() -> new EntityNotFoundException("User not found"));
 		
 		booking.setTotalNumberOfSeats(bookingDto.getTotalNumberOfSeats());
 		booking.setBookingDate(bookingDto.getBookingDate());
@@ -125,22 +134,28 @@ public class UserServiceImp implements IUserService {
 	}
 
 	@Override
-	public User updateUserProfile(UserDTO userDto) {
-		User user = new User();
-		Admin admin = new Admin();
-		admin.setAdminId(userDto.getAdminId()); // Users never enter adminId. Just for understanding sake we have given it like this
-		 
-		user.setUsername(userDto.getUsername());
-		user.setPassword(userDto.getPassword());
-		user.setEmail(userDto.getEmail());
-		user.setFirstName(userDto.getFirstName());
-		user.setLastName(userDto.getLastName());
-		user.setPhoneNumber(userDto.getPhoneNumber());
-		user.setAddress(userDto.getAddress());
-		user.setRegistrationDate(userDto.getRegistrationDate());
-		user.setAdmin(admin);
+	public User updateUserProfile(UserDTO userDto, int userId) throws UserNotFoundException {
+		Admin admin = adminRepository.findById(userDto.getAdminId())
+                .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: " + userDto.getAdminId()));
 		
-		return userRepo.save(user);
+		Optional<User> existUser = userRepo.findById(userId);
+		if(existUser.isPresent()) {
+			User user = new User();
+			
+			user.setUsername(userDto.getUsername());
+			user.setPassword(userDto.getPassword());
+			user.setEmail(userDto.getEmail());
+			user.setFirstName(userDto.getFirstName());
+			user.setLastName(userDto.getLastName());
+			user.setPhoneNumber(userDto.getPhoneNumber());
+			user.setAddress(userDto.getAddress());
+			user.setRegistrationDate(userDto.getRegistrationDate());
+			user.setAdmin(admin);
+			
+			return userRepo.save(user);
+		} else {
+			throw new UserNotFoundException("User with given ID not found in db!");
+		}
 	}
 
 	@Override
