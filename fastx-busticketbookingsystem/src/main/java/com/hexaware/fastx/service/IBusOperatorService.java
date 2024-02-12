@@ -3,6 +3,7 @@ package com.hexaware.fastx.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.hexaware.fastx.dto.AuthenticationRequest;
 import com.hexaware.fastx.dto.BusOperatorDTO;
 import com.hexaware.fastx.dto.BusRouteDTO;
 import com.hexaware.fastx.dto.BusScheduleDTO;
@@ -17,11 +18,10 @@ import com.hexaware.fastx.exception.SeatUnavailableException;
 
 public interface IBusOperatorService {
 	
+	String loginBusOperator(AuthenticationRequest authenticationRequest);
+	
 	// Register Bus Operator
 	BusOperator registerBusOperator(BusOperatorDTO busOperatorDto);
-	
-	//Login Bus Operator
-	String loginBusOperator();
 	
     // Adds a new bus route
     BusRoute addBusRoute(BusRouteDTO busRouteDto);

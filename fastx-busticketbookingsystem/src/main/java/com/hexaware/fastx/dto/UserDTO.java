@@ -11,11 +11,11 @@ public class UserDTO {
     private String phoneNumber;
     private String address;
     private Date registrationDate;
-    private int adminId;
+    private String roles;
     
 	
 	public UserDTO(String username, String password, String email, String firstName, String lastName,
-			String phoneNumber, String address, Date registrationDate, int adminId) {
+			String phoneNumber, String address, Date registrationDate, String roles) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -25,7 +25,7 @@ public class UserDTO {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.registrationDate = registrationDate;
-		this.adminId = adminId;
+		this.roles = roles;
 	}
 	public UserDTO() {
 		super();
@@ -79,11 +79,10 @@ public class UserDTO {
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
-	public int getAdminId() {
-		return adminId;
+	public String getRoles() {
+		return roles;
 	}
-	public void setAdmin(int adminId) {
-		this.adminId = adminId;
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
-    
 }

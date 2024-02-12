@@ -17,7 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -25,7 +24,6 @@ import jakarta.validation.constraints.Pattern;
 @Table(name="User")
 public class User {
 	@Id
-	@Min(value=100, message="Id should be greater then 100")
 	@Max(value=900, message="Id should be less then 900")
 	@GeneratedValue(strategy = GenerationType.AUTO)
    
@@ -43,6 +41,7 @@ public class User {
     private String phoneNumber;
     private String address;
     private Date registrationDate;
+    private String roles;
     
     //FOr one to many relationship between user to booking
     // Collection of Booking entities, one to many relationship from User to booking 
@@ -87,7 +86,7 @@ public class User {
 	//Parameterized Constructor
 	public User(int userId, String username, String password, String email, String firstName, String lastName,
 			String phoneNumber, String address, Date registrationDate, Set<Booking> bookings, Set<JWTToken> jwtTokens,
-			Set<Session> sessions, Set<AuditLog> auditLogs) {
+			Set<Session> sessions, Set<AuditLog> auditLogs, String roles) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -102,6 +101,7 @@ public class User {
 		this.jwtTokens = jwtTokens;
 		this.sessions = sessions;
 		this.auditLogs = auditLogs;
+		this.roles = roles;
 	}
 
     //FOr one to many relationship between user to booking
@@ -265,6 +265,14 @@ public class User {
 	// Getters and Setters End
 	
 	
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
 	// ToString Method
 	@Override
 	public String toString() {

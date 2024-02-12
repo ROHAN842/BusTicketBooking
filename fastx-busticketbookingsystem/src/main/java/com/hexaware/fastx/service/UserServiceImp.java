@@ -7,9 +7,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.fastx.dto.AuthenticationRequest;
 import com.hexaware.fastx.dto.BookingDTO;
 import com.hexaware.fastx.dto.UserDTO;
 import com.hexaware.fastx.entities.Admin;
@@ -48,38 +56,51 @@ public class UserServiceImp implements IUserService {
 	@Autowired
 	AdminRepository adminRepository;
 	
+	@Autowired
+	 private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	@Autowired
+	JwtService jwtService;
+	
+	Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
+	
 	@Override
 	public User registerUser(UserDTO userDto) {
 		User user = new User();
 		// Load the Admin entity from the database
-	    Admin admin = adminRepository.findById(userDto.getAdminId())
-	                                 .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: " + userDto.getAdminId()));
+	    Admin admin = adminRepository.findById(1)
+	                                 .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: 1"));
 		
 		user.setUsername(userDto.getUsername());
-		user.setPassword(userDto.getPassword());
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		user.setEmail(userDto.getEmail());
 		user.setFirstName(userDto.getFirstName());
 		user.setLastName(userDto.getLastName());
 		user.setPhoneNumber(userDto.getPhoneNumber());
 		user.setAddress(userDto.getAddress());
 		user.setRegistrationDate(userDto.getRegistrationDate());
+		user.setRoles(userDto.getRoles());
 		user.setAdmin(admin);
+		
+		logger.info("User registered successfully.");
 		
 		return userRepo.save(user);
 	}
 
-	@Override
-	public User loginUser(String usernameOrEmail, String password) {
-		return null;
-	}
+	
 
 	@Override
 	public List<BusRoute> searchBusRoutes(String origin, String destination) {
+		logger.info("Searching bus routes by origin and destination.");
 		return busRouteRepo.getBusRoutesByOriginAndDestination(origin, destination);
 	}
 
 	@Override
 	public List<BusSchedule> getAvailableSchedules(int routeId) {
+		logger.info("Listing available schedules by route ID.");
 		return busScheduleRepo.findByRouteId(routeId);
 	}
 
@@ -96,6 +117,8 @@ public class UserServiceImp implements IUserService {
 			}
 			faresAndAmenities.put(id, amenities);
 		}
+		
+		logger.info("Getting fares and amenities for a particular bus schedule by ID.");
 		
 		return faresAndAmenities;
 	}
@@ -118,11 +141,19 @@ public class UserServiceImp implements IUserService {
 		booking.setUser(user);
 		booking.setBusSchedule(busSchedule);
 		
+		int selectedSeats = bookingDto.getTotalNumberOfSeats();
+		
+		logger.info("Updating number of seats in Bus Schedule");
+		busScheduleRepo.updateSeats(selectedSeats, bookingDto.getScheduleId());
+		
+		logger.info("Booking tickets for the trip.");
+		
 		return bookingRepo.save(booking);
 	}
 
 	@Override 
 	public List<Booking> getBookingHistory(int userId) {
+		logger.info("List booking details for a particular user.");
 		return bookingRepo.findByUserId(userId);
 	}
 
@@ -130,30 +161,36 @@ public class UserServiceImp implements IUserService {
 	public String cancelBooking(int bookingId) {
 		bookingRepo.updateRefundStatus(RefundStatus.PENDING, bookingId);
 		
+		logger.warn("Cancelling booking! Setting refund status to 'PENDING'.");
+		
 		return "Booking cancelled";
 	}
 
 	@Override
 	public User updateUserProfile(UserDTO userDto, int userId) throws UserNotFoundException {
-		Admin admin = adminRepository.findById(userDto.getAdminId())
-                .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: " + userDto.getAdminId()));
+		Admin admin = adminRepository.findById(1)
+                .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: 1"));
 		
 		Optional<User> existUser = userRepo.findById(userId);
 		if(existUser.isPresent()) {
 			User user = new User();
 			
 			user.setUsername(userDto.getUsername());
-			user.setPassword(userDto.getPassword());
+			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 			user.setEmail(userDto.getEmail());
 			user.setFirstName(userDto.getFirstName());
 			user.setLastName(userDto.getLastName());
 			user.setPhoneNumber(userDto.getPhoneNumber());
 			user.setAddress(userDto.getAddress());
 			user.setRegistrationDate(userDto.getRegistrationDate());
+			user.setRoles(userDto.getRoles());
 			user.setAdmin(admin);
+			
+			logger.warn("User details updated for the given ID.");
 			
 			return userRepo.save(user);
 		} else {
+			logger.error("User with given ID not found");
 			throw new UserNotFoundException("User with given ID not found in db!");
 		}
 	}
@@ -165,15 +202,41 @@ public class UserServiceImp implements IUserService {
 		Optional<User> existUser = userRepo.findById(userId);
 		if(existUser.isPresent())
 		{
+			passwordEncoder.encode(newPassword);
 			int count = userRepo.updatePassword(newPassword, userId);
 			if(count > 0) {
 				flag = true;
 			}
+			logger.warn("Updating password for the user");
 		} else {
+			logger.error("User not found");
 			throw new UserNotFoundException("User with the given ID not found in DB.");
 		}
 		
 		return flag;
+	}
+
+
+
+	@Override
+	public String loginUser(AuthenticationRequest authenticationRequest) {
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+		
+		String token = null;
+		
+		if(authentication.isAuthenticated()) {
+			
+			// call generate token method from jwtService class
+			
+			token =	jwtService.generateToken(authenticationRequest.getUsername());
+		}
+		else {
+			logger.error("Username or password entered is incorrect!");
+			 throw new UsernameNotFoundException("UserName or Password in Invalid / Invalid Request");
+			
+		}
+		logger.info("Generating token to verify credentials of the user");
+		return token;
 	}
 
 }

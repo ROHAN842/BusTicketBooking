@@ -17,7 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -26,7 +25,6 @@ import jakarta.validation.constraints.Pattern;
 public class BusOperator {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Min(value = 1, message = "OperatorId must be greater than or equal to 150")
     @Max(value = 1050, message = "OperatorId must be less than or equal to 1050")
 	private int operatorId;
 	@NotBlank(message = "OperatorUsername is required")
@@ -40,6 +38,7 @@ public class BusOperator {
 	private String emailId;
 	private String phoneNumber;
 	private Date registrationDate;
+	private String roles;
 	
 	@ManyToOne
 	@JoinColumn(name = "admin_id")
@@ -66,7 +65,7 @@ public class BusOperator {
 
 	public BusOperator(int operatorId, String operatorUsername, String operatorPassword, String operatorName,
 			String emailId, String phoneNumber, Date registrationDate, Admin admin, Set<JWTToken> jwtToken,
-			Set<AuditLog> auditLog, Set<BusSchedule> busSchedule) {
+			Set<AuditLog> auditLog, Set<BusSchedule> busSchedule, String roles) {
 		super();
 		this.operatorId = operatorId;
 		this.operatorUsername = operatorUsername;
@@ -79,6 +78,7 @@ public class BusOperator {
 		this.jwtToken = jwtToken;
 		this.auditLog = auditLog;
 		this.busSchedule = busSchedule;
+		this.roles = roles;
 	}
 
 
@@ -178,6 +178,15 @@ public class BusOperator {
 
 	public void setBusSchedule(Set<BusSchedule> busSchedule) {
 		this.busSchedule = busSchedule;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 

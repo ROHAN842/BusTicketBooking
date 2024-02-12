@@ -16,6 +16,7 @@ import com.hexaware.fastx.entities.Booking;
 import com.hexaware.fastx.entities.BusOperator;
 import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.User;
+import com.hexaware.fastx.exception.BusRouteNotFoundException;
 
 @SpringBootTest
 public class AdminServiceImpTest {
@@ -62,10 +63,10 @@ public class AdminServiceImpTest {
     }
 
     @Test
-    void testEditBusRoute() {
+    void testEditBusRoute() throws BusRouteNotFoundException {
         BusRouteDTO busRouteDto = new BusRouteDTO();
         // Set properties of busRouteDto
-        BusRoute busRoute = adminService.editBusRoute(busRouteDto);
+        BusRoute busRoute = adminService.editBusRoute(busRouteDto,1);
         assertNotNull(busRoute);
     }
 

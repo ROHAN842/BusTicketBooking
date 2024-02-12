@@ -34,6 +34,7 @@ public class Admin {
 	private String emailId;
 	private String phoneNo;
 	private Date registrationDate;
+	private String roles;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "admin")
 	private Set<User> user = new HashSet<User>();
@@ -55,7 +56,7 @@ public class Admin {
 
 	public Admin(int adminId, String adminUsername, String adminPassword, String emailId, String phoneNo,
 			Date registrationDate, Set<User> user, Set<BusOperator> busOperator, Set<JWTToken> jwtToken,
-			Set<AuditLog> auditLog) {
+			Set<AuditLog> auditLog, String roles) {
 		super();
 		this.adminId = adminId;
 		this.adminUsername = adminUsername;
@@ -67,6 +68,7 @@ public class Admin {
 		this.busOperator = busOperator;
 		this.jwtToken = jwtToken;
 		this.auditLog = auditLog;
+		this.roles = roles;
 	}
 
 
@@ -157,6 +159,16 @@ public class Admin {
 
 	public void setAuditLog(Set<AuditLog> auditLog) {
 		this.auditLog = auditLog;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 

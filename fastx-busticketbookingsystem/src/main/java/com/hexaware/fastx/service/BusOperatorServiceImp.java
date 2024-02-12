@@ -4,9 +4,17 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.fastx.dto.AuthenticationRequest;
 import com.hexaware.fastx.dto.BusOperatorDTO;
 import com.hexaware.fastx.dto.BusRouteDTO;
 import com.hexaware.fastx.dto.BusScheduleDTO;
@@ -48,6 +56,16 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 	@Autowired
 	AdminRepository adminRepository;
 	
+	 @Autowired
+	 private PasswordEncoder passwordEncoder;
+	 
+	 @Autowired
+		AuthenticationManager authenticationManager;
+		
+		@Autowired
+		JwtService jwtService;
+	
+		Logger logger = LoggerFactory.getLogger(BusOperatorServiceImp.class);
 	@Override
 	public BusOperator registerBusOperator(BusOperatorDTO busOperatorDto) {
 		BusOperator busOperator = new BusOperator();
@@ -55,19 +73,17 @@ public class BusOperatorServiceImp implements IBusOperatorService {
                 .orElseThrow(() -> new EntityNotFoundException("Admin not found with ID"));
 		
 		busOperator.setOperatorUsername(busOperatorDto.getOperatorUsername());
-		busOperator.setOperatorPassword(busOperatorDto.getOperatorPassword());
-		busOperator.setoperatorName(busOperatorDto.getOperatorname());
+		busOperator.setOperatorPassword(passwordEncoder.encode(busOperatorDto.getOperatorPassword()));
+		busOperator.setoperatorName(busOperatorDto.getOperatorName());
 		busOperator.setEmailId(busOperatorDto.getEmailId());
 		busOperator.setPhoneNumber(busOperatorDto.getPhoneNumber());
 		busOperator.setRegistrationDate(busOperatorDto.getRegistrationDate());
+		busOperator.setRoles(busOperatorDto.getRoles());
 		busOperator.setAdmin(admin);
 		
+		logger.info("Bus operator registered!");
+		
 		return busOperatorRepo.save(busOperator);
-	}
-	
-	@Override
-	public String loginBusOperator() {
-		return "";
 	}
 	
 	@Override
@@ -79,6 +95,8 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 		busRoute.setDistanceCovered(busRouteDto.getDistanceCovered());
 		busRoute.setEstimatedDuration(busRouteDto.getEstimatedDuration());
 		busRoute.setRouteDescription(busRouteDto.getRouteDescription());
+		
+		logger.info("Bus Route added.");
 		
 		return busRouteRepo.save(busRoute);
 	}
@@ -97,8 +115,11 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 			busRoute.setEstimatedDuration(busRouteDto.getEstimatedDuration());
 			busRoute.setRouteDescription(busRouteDto.getRouteDescription());
 			
+			logger.warn("Bus Route details updated");
+			
 			return busRouteRepo.save(busRoute);
 		} else {
+			logger.error("Bus route with given ID not found!");
 			throw new BusRouteNotFoundException("Bus Routes with given ID not found in DB.");
 		}
 		
@@ -108,11 +129,15 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 	public String removeBusRoute(int routeId) {
 		busRouteRepo.deleteById(routeId);
 		
+		logger.warn("Bus route deleted");
+		
 		return "Bus Route deleted";
 	}
 
 	@Override
 	public List<BusRoute> searchBusRoutes(String origin, String destination) {
+		logger.info("Listing bus routes by origin and destination.");
+		
 		return busRouteRepo.getBusRoutesByOriginAndDestination(origin, destination);
 	}
 
@@ -136,6 +161,7 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 		busSchedule.setBusRoute(busRoute);
 		busSchedule.setOperator(busOperator);
 		
+		logger.info("Bus schedule added!");
 		
 		return busScheduleRepo.save(busSchedule);
 	}
@@ -164,9 +190,11 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 			busSchedule.setBusRoute(busRoute);
 			busSchedule.setOperator(busOperator);
 			
+			logger.warn("Bus Schedule details updated.");
 			
 			return busScheduleRepo.save(busSchedule);
 		} else {
+			logger.error("Bus schedule with given ID not found.");
 			throw new ScheduleNotFoundException("Schedule with the given ID not found in DB.");
 		}
 		
@@ -176,11 +204,14 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 	public String removeBusSchedule(int scheduleId) {
 		busScheduleRepo.deleteById(scheduleId);
 		
+		logger.warn("Bus schedule deleted!");
+		
 		return "Bus Schedule removed";
 	}
 
 	@Override
 	public List<BusSchedule> getAvailableSchedules(int routeId) {
+		logger.info("Listing all available bus schedules for a route ID.");
 		return busScheduleRepo.findByRouteId(routeId);
 	}
 
@@ -193,7 +224,9 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 			int count = busScheduleRepo.updateFare(fare, scheduleId);
 			if(count > 0)
 				flag = true;
+			logger.warn("Updating fares for bus schedule.");
 		} else {
+			logger.error("Bus schedule with given ID not found!");
 			throw new ScheduleNotFoundException("Bus schedule with the given ID not found.");
 		}
 		
@@ -209,14 +242,19 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 			BusSchedule schedule = existSchedule.get();
 			if(schedule.getAvailableSeats() > 0)
 				flag = true;
+			logger.info("Getting seat availability!");
 		} else
+		{
+			logger.error("Seats not available.");
 			throw new SeatUnavailableException("Seats ran out!");
+		}
 		
 		return flag;
 	}
 
 	@Override
 	public List<Booking> viewBookedTickets(int scheduleId) {
+		logger.info("Viewing booked tickets!");
 		return bookingRepo.findByScheduleId(scheduleId);
 	}
 
@@ -235,9 +273,11 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 				{
 					flag = true;
 				}
+				logger.warn("Cancelling tickets. Setting refund status to PROCESSED from PENDING");
 			}
 		}
 		else {
+			logger.error("Booking ID not found!");
 			throw new BookingNotFoundException("Booking with the given ID not found in DB.");
 		}
 		
@@ -246,7 +286,29 @@ public class BusOperatorServiceImp implements IBusOperatorService {
 
 	@Override
 	public List<Booking> getBookingHistory(int userId) {
+		logger.info("Listing booking history of a user ID");
 		return bookingRepo.findByUserId(userId);
+	}
+
+	@Override
+	public String loginBusOperator(AuthenticationRequest authenticationRequest) {
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+		
+		String token = null;
+		
+		if(authentication.isAuthenticated()) {
+			
+			// call generate token method from jwtService class
+			logger.info("Generating token for Bus operator");
+			token =	jwtService.generateToken(authenticationRequest.getUsername());
+		}
+		else {
+			logger.error("Username or password for bus operator is incorrect!");
+			 throw new UsernameNotFoundException("UserName or Password in Invalid / Invalid Request");
+			
+		}
+
+		return token;
 	}
 
 }

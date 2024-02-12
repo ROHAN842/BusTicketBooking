@@ -28,4 +28,8 @@ public interface BusScheduleRepository extends JpaRepository<BusSchedule, Intege
 	        nativeQuery = true)
 	List<Object[]> findScheduleIdAndAmenitiesByScheduleId(int scheduleId);
 	
+	@Modifying
+	@Query(value = "update bus_schedule set available_seats = available_seats - ?1 where scheduleid = ?2")
+	int updateSeats(int selectedSeats, int scheduleId);
+	
 }
