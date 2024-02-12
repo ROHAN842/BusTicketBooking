@@ -1,0 +1,13 @@
+Things yet to implement in Case Study backend:
+
+In Bus Operator service imp:
+3. Bus Operator login signup, authentication and authorization.
+
+Admin Service imp:
+1. Admin login authentication and authorization.
+
+User service imp:
+
+1. User login, signup, authentication and authorization.
+
+
