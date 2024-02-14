@@ -32,8 +32,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/admins")
 public class AdminRestController {
 	
+	private final IAdminService service;
+
 	@Autowired
-	private IAdminService service;
+	public AdminRestController(IAdminService service) {
+	    this.service = service;
+	}
 	
 	@Autowired
 	AuthenticationManager authenticationManager;

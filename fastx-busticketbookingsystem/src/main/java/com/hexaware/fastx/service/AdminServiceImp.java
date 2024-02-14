@@ -27,17 +27,21 @@ import com.hexaware.fastx.repository.UserRepository;
 @Service
 public class AdminServiceImp implements IAdminService {
 
-	@Autowired
-	UserRepository userRepo;
-	
-	@Autowired
-	BusOperatorRepository busOperatorRepo;
-	
-	@Autowired
-	BookingRepository bookingRepo;
-	
-	@Autowired
-	BusRouteRepository busRouteRepo;
+	private final UserRepository userRepo;
+    private final BusOperatorRepository busOperatorRepo;
+    private final BookingRepository bookingRepo;
+    private final BusRouteRepository busRouteRepo;
+
+    @Autowired
+    public AdminServiceImp(UserRepository userRepo, 
+                         BusOperatorRepository busOperatorRepo, 
+                         BookingRepository bookingRepo, 
+                         BusRouteRepository busRouteRepo) {
+        this.userRepo = userRepo;
+        this.busOperatorRepo = busOperatorRepo;
+        this.bookingRepo = bookingRepo;
+        this.busRouteRepo = busRouteRepo;
+    }
 	
 	@Autowired
 	AuthenticationManager authenticationManager;

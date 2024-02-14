@@ -38,8 +38,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/busoperators")
 public class BusOperatorRestController {
 
+	private final IBusOperatorService service;
+
 	@Autowired
-	IBusOperatorService service;
+	public BusOperatorRestController(IBusOperatorService service) {
+	    this.service = service;
+	}
 	
 	@Autowired
 	AuthenticationManager authenticationManager;

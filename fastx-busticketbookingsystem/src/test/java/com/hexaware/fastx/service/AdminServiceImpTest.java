@@ -18,8 +18,10 @@ import com.hexaware.fastx.entities.BusRoute;
 import com.hexaware.fastx.entities.User;
 import com.hexaware.fastx.exception.BusRouteNotFoundException;
 
+import java.sql.Time;
+
 @SpringBootTest
-public class AdminServiceImpTest {
+ class AdminServiceImpTest {
 	
     @Autowired
     IAdminService adminService;
@@ -42,7 +44,7 @@ public class AdminServiceImpTest {
 
     @Test
     void testManageBookedTickets() {
-        List<Booking> bookings = adminService.manageBookedTickets(101);
+        List<Booking> bookings = adminService.manageBookedTickets(3);
         assertNotNull(bookings);
         assertTrue(bookings.size() > 0);
     }
@@ -56,19 +58,35 @@ public class AdminServiceImpTest {
 
     @Test
     void testAddBusRoute() {
+        // Create a new BusRouteDTO object and set its properties
         BusRouteDTO busRouteDto = new BusRouteDTO();
-        // Set properties of busRouteDto
+        busRouteDto.setOrigin("Dewas");
+        busRouteDto.setDestination("Indore");
+        busRouteDto.setDistanceCovered(35);
+     // Set the estimated duration for the bus route
+        Time estimatedDuration = Time.valueOf("01:00:00"); // Assuming 1 hours 
+        busRouteDto.setEstimatedDuration(estimatedDuration);
+        busRouteDto.setRouteDescription("Very easy to travel with great bus facility");
+
+        // Call the addBusRoute method
         BusRoute busRoute = adminService.addBusRoute(busRouteDto);
+
+        // Assert that the returned busRoute is not null
         assertNotNull(busRoute);
     }
 
     @Test
     void testEditBusRoute() throws BusRouteNotFoundException {
-        BusRouteDTO busRouteDto = new BusRouteDTO();
-        // Set properties of busRouteDto
-        BusRoute busRoute = adminService.editBusRoute(busRouteDto,1);
+        // Create a new BusRouteDTO object and set its properties
+        BusRouteDTO busRouteDto = new BusRouteDTO("Bjuj", "Kutch", 170, Time.valueOf("02:30:00"), "Excellent amenities are provided in this bus");
+
+        // Call the editBusRoute method
+        BusRoute busRoute = adminService.editBusRoute(busRouteDto, 202);
+
+        // Assert that the returned busRoute is not null
         assertNotNull(busRoute);
     }
+
 
     @Test
     void testRemoveBusRoute() {
@@ -78,16 +96,16 @@ public class AdminServiceImpTest {
 
     @Test
     void testSearchBusRoutes() {
-        List<BusRoute> busRoutes = adminService.searchBusRoutes("Origin", "Destination");
+        List<BusRoute> busRoutes = adminService.searchBusRoutes("New Delhi", "Mumbai");
         assertNotNull(busRoutes);
         assertTrue(busRoutes.size() > 0);
     }
 
     @Test
     void testGetUserById() {
-        User user = adminService.getUserById(101);
+        User user = adminService.getUserById(3);
         assertNotNull(user);
-        assertEquals(101, user.getUserId());
+        assertEquals(3, user.getUserId());
         // Add assertions to verify other properties of user
     }
 
@@ -100,9 +118,9 @@ public class AdminServiceImpTest {
 
     @Test
     void testGetBusOperatorById() {
-        BusOperator operator = adminService.getBusOperatorById(201);
+        BusOperator operator = adminService.getBusOperatorById(2);
         assertNotNull(operator);
-        assertEquals(201, operator.getOperatorId());
+        assertEquals(2, operator.getOperatorId());
     }
 
     @Test

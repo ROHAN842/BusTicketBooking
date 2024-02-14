@@ -41,20 +41,24 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class UserServiceImp implements IUserService {
 
-	@Autowired 
-	UserRepository userRepo;
-	
-	@Autowired
-	BusRouteRepository busRouteRepo;
-	
-	@Autowired
-	BusScheduleRepository busScheduleRepo;
-	
-	@Autowired
-	BookingRepository bookingRepo;
-	
-	@Autowired
-	AdminRepository adminRepository;
+	private final UserRepository userRepo;
+    private final BusRouteRepository busRouteRepo;
+    private final BusScheduleRepository busScheduleRepo;
+    private final BookingRepository bookingRepo;
+    private final AdminRepository adminRepository;
+
+    @Autowired
+    public UserServiceImp(UserRepository userRepo, 
+                         BusRouteRepository busRouteRepo, 
+                         BusScheduleRepository busScheduleRepo, 
+                         BookingRepository bookingRepo, 
+                         AdminRepository adminRepository) {
+        this.userRepo = userRepo;
+        this.busRouteRepo = busRouteRepo;
+        this.busScheduleRepo = busScheduleRepo;
+        this.bookingRepo = bookingRepo;
+        this.adminRepository = adminRepository;
+    }
 	
 	@Autowired
 	 private PasswordEncoder passwordEncoder;
@@ -137,14 +141,12 @@ public class UserServiceImp implements IUserService {
 		booking.setBookingDate(bookingDto.getBookingDate());
 		booking.setPaymentDate(bookingDto.getPaymentDate());
 		booking.setPaymentStatus(bookingDto.getPaymentStatus());
-		booking.setRefundStatus(bookingDto.getRefundStatus());
+		booking.setRefundStatus(RefundStatus.NOT_REQUIRED);
 		booking.setUser(user);
 		booking.setBusSchedule(busSchedule);
 		
-		int selectedSeats = bookingDto.getTotalNumberOfSeats();
 		
 		logger.info("Updating number of seats in Bus Schedule");
-		busScheduleRepo.updateSeats(selectedSeats, bookingDto.getScheduleId());
 		
 		logger.info("Booking tickets for the trip.");
 		

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +36,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/users")
 public class UserRestController {
 	
+	private final IUserService service;
+
 	@Autowired
-	IUserService service;
+	public UserRestController(IUserService service) {
+	    this.service = service;
+	}
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -98,6 +103,20 @@ public class UserRestController {
 	public boolean updatePassword(@PathVariable int userId, @PathVariable String newPassword) throws UserNotFoundException {
 		logger.warn("User password updated successfully!!!!");
 		return service.changePassword(userId, newPassword);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@GetMapping("/get-booking-history/{userId}")
+	public List<Booking> getBookingHistory(@PathVariable int userId) {
+		logger.info("Listing booking history for the user");
+		return service.getBookingHistory(userId);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@DeleteMapping("/cancel-booking/{bookingId}")
+	public String cancelBooking(@PathVariable int bookingId) {
+		logger.warn("cancelling booking.");
+		return service.cancelBooking(bookingId);
 	}
 
 }

@@ -3,7 +3,6 @@ package com.hexaware.fastx.dto;
 import java.sql.Date;
 
 import com.hexaware.fastx.entities.Booking.PaymentStatus;
-import com.hexaware.fastx.entities.Booking.RefundStatus;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,8 +13,6 @@ public class BookingDTO {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
     private Date paymentDate;
-    @Enumerated(EnumType.STRING)
-    private RefundStatus refundStatus;
     private int userId;
     private int scheduleId;
     
@@ -23,14 +20,12 @@ public class BookingDTO {
 	public BookingDTO() {
 		super();
 	}
-	public BookingDTO(int totalNumberOfSeats, Date bookingDate, PaymentStatus paymentStatus, Date paymentDate,
-			RefundStatus refundStatus) {
+	public BookingDTO(int totalNumberOfSeats, Date bookingDate, PaymentStatus paymentStatus, Date paymentDate) {
 		super();
 		this.totalNumberOfSeats = totalNumberOfSeats;
 		this.bookingDate = bookingDate;
 		this.paymentStatus = paymentStatus;
 		this.paymentDate = paymentDate;
-		this.refundStatus = refundStatus;
 	}
 	
 	public int getTotalNumberOfSeats() {
@@ -56,12 +51,6 @@ public class BookingDTO {
 	}
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
-	}
-	public RefundStatus getRefundStatus() {
-		return refundStatus;
-	}
-	public void setRefundStatus(RefundStatus refundStatus) {
-		this.refundStatus = refundStatus;
 	}
 	public int getUserId() {
 		return userId;

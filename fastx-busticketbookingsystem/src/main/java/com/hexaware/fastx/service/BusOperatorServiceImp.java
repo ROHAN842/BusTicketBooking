@@ -41,20 +41,24 @@ import jakarta.transaction.Transactional;
 @Service
 public class BusOperatorServiceImp implements IBusOperatorService {
 
-	@Autowired
-	BusRouteRepository busRouteRepo;
-	
-	@Autowired
-	BusScheduleRepository busScheduleRepo;
-	
-	@Autowired
-	BookingRepository bookingRepo;
-	
-	@Autowired
-	BusOperatorRepository busOperatorRepo;
-	
-	@Autowired
-	AdminRepository adminRepository;
+	private final BusRouteRepository busRouteRepo;
+    private final BusScheduleRepository busScheduleRepo;
+    private final BookingRepository bookingRepo;
+    private final BusOperatorRepository busOperatorRepo;
+    private final AdminRepository adminRepository;
+
+    @Autowired
+    public BusOperatorServiceImp(BusRouteRepository busRouteRepo, 
+                         BusScheduleRepository busScheduleRepo, 
+                         BookingRepository bookingRepo, 
+                         BusOperatorRepository busOperatorRepo, 
+                         AdminRepository adminRepository) {
+        this.busRouteRepo = busRouteRepo;
+        this.busScheduleRepo = busScheduleRepo;
+        this.bookingRepo = bookingRepo;
+        this.busOperatorRepo = busOperatorRepo;
+        this.adminRepository = adminRepository;
+    }
 	
 	 @Autowired
 	 private PasswordEncoder passwordEncoder;
